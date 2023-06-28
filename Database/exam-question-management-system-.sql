@@ -1,0 +1,172 @@
+CREATE TABLE [Past_Papers] (
+	PaperID integer NOT NULL,
+	Date date NOT NULL,
+  CONSTRAINT [PK_PAST_PAPERS] PRIMARY KEY CLUSTERED
+  (
+  [PaperID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [MCQs] (
+	MCQID integer NOT NULL,
+	Content text NOT NULL,
+	Difficulty integer NOT NULL,
+	ChapterID integer NOT NULL,
+	SubjectID integer NOT NULL,
+	OptionA text NOT NULL,
+	OptionB text NOT NULL,
+	OptionC text NOT NULL,
+	OptionD text NOT NULL,
+	Answer varchar NOT NULL,
+  CONSTRAINT [PK_MCQS] PRIMARY KEY CLUSTERED
+  (
+  [MCQID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Paper_MCQ] (
+	PaperID integer NOT NULL,
+	MCQID integer NOT NULL,
+  CONSTRAINT [PK_PAPER_MCQ] PRIMARY KEY CLUSTERED
+  (
+  [PaperID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Questions] (
+	QuestionID integer NOT NULL,
+	TopicID integer NOT NULL,
+	SubjectID integer NOT NULL,
+	Difficulty integer NOT NULL,
+	Type text NOT NULL,
+	Content text NOT NULL,
+	Diagram text NOT NULL,
+  CONSTRAINT [PK_QUESTIONS] PRIMARY KEY CLUSTERED
+  (
+  [QuestionID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Paper_Question] (
+	PaperID integer NOT NULL,
+	QuestionID integer NOT NULL,
+  CONSTRAINT [PK_PAPER_QUESTION] PRIMARY KEY CLUSTERED
+  (
+  [PaperID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Admin] (
+	AdminID integer NOT NULL,
+	Password text NOT NULL,
+  CONSTRAINT [PK_ADMIN] PRIMARY KEY CLUSTERED
+  (
+  [AdminID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Book] (
+	SubjectId integer NOT NULL,
+	BookName text NOT NULL,
+	BookID integer NOT NULL,
+  CONSTRAINT [PK_BOOK] PRIMARY KEY CLUSTERED
+  (
+  [BookID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Subject] (
+	SubjectId integer NOT NULL,
+	SubjectName text NOT NULL,
+  CONSTRAINT [PK_SUBJECT] PRIMARY KEY CLUSTERED
+  (
+  [SubjectId] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Topic] (
+	TopicId integer NOT NULL,
+	TopicName text NOT NULL,
+	ShortQs_Weightage float NOT NULL,
+	LongQs_Weightage float NOT NULL,
+	MCQs_Weightage float NOT NULL,
+  CONSTRAINT [PK_TOPIC] PRIMARY KEY CLUSTERED
+  (
+  [TopicId] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Book_Topic] (
+	BookId integer NOT NULL,
+	TopicId integer NOT NULL,
+  CONSTRAINT [PK_BOOK_TOPIC] PRIMARY KEY CLUSTERED
+  (
+  [BookId] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+
+
+ALTER TABLE [Paper_MCQ] WITH CHECK ADD CONSTRAINT [Paper_MCQ_fk0] FOREIGN KEY ([PaperID]) REFERENCES [Past_Papers]([PaperID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Paper_MCQ] CHECK CONSTRAINT [Paper_MCQ_fk0]
+GO
+ALTER TABLE [Paper_MCQ] WITH CHECK ADD CONSTRAINT [Paper_MCQ_fk1] FOREIGN KEY ([MCQID]) REFERENCES [MCQs]([MCQID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Paper_MCQ] CHECK CONSTRAINT [Paper_MCQ_fk1]
+GO
+
+ALTER TABLE [Questions] WITH CHECK ADD CONSTRAINT [Questions_fk0] FOREIGN KEY ([TopicID]) REFERENCES [Topic]([TopicId])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Questions] CHECK CONSTRAINT [Questions_fk0]
+GO
+ALTER TABLE [Questions] WITH CHECK ADD CONSTRAINT [Questions_fk1] FOREIGN KEY ([SubjectID]) REFERENCES [Subject]([SubjectId])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Questions] CHECK CONSTRAINT [Questions_fk1]
+GO
+
+ALTER TABLE [Paper_Question] WITH CHECK ADD CONSTRAINT [Paper_Question_fk0] FOREIGN KEY ([PaperID]) REFERENCES [Past_Papers]([PaperID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Paper_Question] CHECK CONSTRAINT [Paper_Question_fk0]
+GO
+ALTER TABLE [Paper_Question] WITH CHECK ADD CONSTRAINT [Paper_Question_fk1] FOREIGN KEY ([QuestionID]) REFERENCES [Questions]([QuestionID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Paper_Question] CHECK CONSTRAINT [Paper_Question_fk1]
+GO
+
+
+ALTER TABLE [Book] WITH CHECK ADD CONSTRAINT [Book_fk0] FOREIGN KEY ([SubjectId]) REFERENCES [Subject]([SubjectId])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Book] CHECK CONSTRAINT [Book_fk0]
+GO
+
+
+
+ALTER TABLE [Book_Topic] WITH CHECK ADD CONSTRAINT [Book_Topic_fk0] FOREIGN KEY ([BookId]) REFERENCES [Book]([BookID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Book_Topic] CHECK CONSTRAINT [Book_Topic_fk0]
+GO
+ALTER TABLE [Book_Topic] WITH CHECK ADD CONSTRAINT [Book_Topic_fk1] FOREIGN KEY ([TopicId]) REFERENCES [Topic]([TopicId])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Book_Topic] CHECK CONSTRAINT [Book_Topic_fk1]
+GO
+
