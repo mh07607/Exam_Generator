@@ -1,0 +1,17 @@
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\Khidmat_UI.exe
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\Khidmat_UI.deps.json
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\Khidmat_UI.runtimeconfig.json
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\Khidmat_UI.dll
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\Khidmat_UI.pdb
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.csproj.AssemblyReference.cache
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.Form1.resources
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.csproj.GenerateResource.cache
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.GeneratedMSBuildEditorConfig.editorconfig
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.AssemblyInfoInputs.cache
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.AssemblyInfo.cs
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.csproj.CoreCompileInputs.cache
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.dll
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\refint\Khidmat_UI.dll
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.pdb
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.genruntimeconfig.cache
+E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\ref\Khidmat_UI.dll
