@@ -41,7 +41,7 @@ CREATE TABLE [Questions] (
 	TopicID integer NOT NULL,
 	SubjectID integer NOT NULL,
 	Difficulty integer NOT NULL,
-	Type text NOT NULL,
+	[Type] text NOT NULL,
 	Content text NOT NULL,
 	Diagram text NOT NULL,
   CONSTRAINT [PK_QUESTIONS] PRIMARY KEY CLUSTERED
