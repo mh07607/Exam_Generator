@@ -85,6 +85,7 @@
             button1.TabIndex = 2;
             button1.Text = "Generate";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // groupBox1
             // 
@@ -384,7 +385,7 @@
             comboBox1.Size = new Size(121, 23);
             comboBox1.TabIndex = 4;
             // 
-            // Form1
+            // NewExam
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -396,8 +397,8 @@
             Controls.Add(groupBox1);
             Controls.Add(button1);
             Controls.Add(label1);
-            Name = "Form1";
-            Text = "Form1";
+            Name = "NewExam";
+            Text = "Create Exam";
             Load += Form1_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
