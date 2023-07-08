@@ -8,19 +8,49 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Khidmat_UI
 {
     public partial class NewExam : Form
     {
+        //Arsalan laptopdb: DESKTOP-PEGIUMG\YEET
+        //Arsalan pcdb: DESKTOP-6N9R52E\SQLEXPRESS
+
+        const string connectionString = @"Data Source=DESKTOP-6N9R52E\SQLEXPRESS; Initial Catalog = khidmat_test; Integrated Security = True";
+        SqlConnection connection = new SqlConnection(connectionString);
+        SqlCommand command = new SqlCommand();
+
         public NewExam()
         {
             InitializeComponent();
+            comboBox1.DataSource = new List<string>();
+        }
+
+        private List<string> getSubjects()
+        {   
+            List<string> subjectList = new List<string>();
+
+            connection.Open();
+            string query = "select SubjectName from Subject";
+            command = new SqlCommand(query, connection);
+            SqlDataReader reader = command.ExecuteReader();
+            while(reader.Read())
+            {
+                string subjectName = reader["SubjectName"].ToString();
+                subjectList.Add(subjectName);
+            }
+
+            reader.Close();
+            command.Dispose();
+            connection.Close();
+            return subjectList;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            List<string> subjectList = getSubjects();
+            comboBox1.DataSource = subjectList.ToArray();
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
@@ -56,10 +86,8 @@ namespace Khidmat_UI
         {
             string texContent = GenerateTexContent();
 
-            // Specify the output directory for the TeX file
             string outputDirectory = @"C:\Users\Arsalan\Downloads";
 
-            // Specify the name of the TeX file (including the .tex extension)
             string outputFileName = "exam.tex";
 
             // Combine the output directory and file name to create the full file path
@@ -67,7 +95,6 @@ namespace Khidmat_UI
 
             try
             {
-                // Write the TeX content to the file
                 File.WriteAllText(outputPath, texContent);
 
                 Console.WriteLine("TeX file generated successfully.");
@@ -138,11 +165,50 @@ namespace Khidmat_UI
             return texContent;
         }
 
-        private string GenerateMCQTex()
+        private List<int> GetTopicIds()
         {
+            List<int> topicIds = new List<int>();
+            connection.Open();
+            string query = "select TopicId from Topic";
+            command = new SqlCommand(query, connection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                int topicId = Convert.ToInt32(reader["TopicId"]);
+                topicIds.Add(topicId);
+            }
 
+            reader.Close();
+            command.Dispose();
+            connection.Close();
+            return topicIds;
         }
 
+        private List<(int, string, string, string, string, string, string)> GetMCQs() 
+        {
+            List<(int, string, string, string, string, string, string)> mcQs = new List<(int, string, string, string, string, string, string)>();
+
+            List<int> topicIds = GetTopicIds();
+            connection.Open();
+
+            for (int i = 0; i < topicIds.Count; i++)
+            {
+                string query = "select ";
+            }
+
+            connection.Close();
+
+            return mcQs;
+        }
+        private string GenerateMCQTex()
+        {
+            string texContent = "";
+            
+
+            return texContent;
+        }
+
+        /*
         private string GenerateShortTex()
         {
 
@@ -152,5 +218,7 @@ namespace Khidmat_UI
         {
 
         }
+        */
+        
     }
 }

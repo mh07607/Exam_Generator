@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\uni\\OneDrive - Habib University\\web_dev\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj": {}
+    "E:\\repos\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj": {}
   },
   "projects": {
-    "D:\\uni\\OneDrive - Habib University\\web_dev\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj": {
+    "E:\\repos\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\uni\\OneDrive - Habib University\\web_dev\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj",
+        "projectUniqueName": "E:\\repos\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj",
         "projectName": "Khidmat_UI",
-        "projectPath": "D:\\uni\\OneDrive - Habib University\\web_dev\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj",
-        "packagesPath": "C:\\Users\\Arsalan\\.nuget\\packages\\",
-        "outputPath": "D:\\uni\\OneDrive - Habib University\\web_dev\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\obj\\",
+        "projectPath": "E:\\repos\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj",
+        "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
+        "outputPath": "E:\\repos\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "E:\\Software\\Visual Studio Shared Tools\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Arsalan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -39,6 +43,12 @@
       "frameworks": {
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
+          "dependencies": {
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.5, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
