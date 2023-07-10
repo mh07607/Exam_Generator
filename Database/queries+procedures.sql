@@ -9,7 +9,7 @@ BEGIN
 END
 */
 
-/*Use these to get a given past papers contents*/
+/*Use these two to get a given past papers contents*/
 Create PROCEDURE GetPastPaperQuestions(@PaperId int)
 AS
 BEGIN
@@ -24,4 +24,10 @@ BEGIN
 	select MCQs.Content, MCQs.OptionA, MCQs.OptionB, MCQs.OptionC, MCQs.OptionD
 	from MCQS, Paper_MCQ
 	where Paper_MCQ.PaperID = @PaperId and Paper_MCQ.MCQID = MCQS.MCQID
+end;
+
+Create PROCEDURE AddQuestion(@TopicId int, @SubjectId int, @Difficulty int, @Type text, @Content text)
+AS 
+BEGIN
+Insert into Questions (TopicID, SubjectID, Difficulty, [Type], Content) values (@TopicId, @SubjectId, @Difficulty, @Type, @Content)
 end;
