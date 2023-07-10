@@ -10,7 +10,7 @@ END
 */
 
 /*Use these to get a given past papers contents*/
-/*Create PROCEDURE GetPastPaperQuestions(@PaperId int)
+Create PROCEDURE GetPastPaperQuestions(@PaperId int)
 AS
 BEGIN
 	select Questions.Content, Questions.[Type]
@@ -42,14 +42,9 @@ END*/
 
 /*Selects a given number of random short Questions*/
 /*SELECT TOP 2 *
-CREATE PROCEDURE GetQuestion(@TopicID int, @SubjectID int, @Difficulty int, @Type text, @number int)
-AS
-BEGIN
-	SELECT TOP (@number) *
-	FROM Questions
-	WHERE Difficulty = @Difficulty AND [Type] = @Type and SubjectID = @SubjectId and TopicId = @TopicID 
-	ORDER BY NEWID()
-END*/
+FROM Questions
+WHERE Difficulty = 1 AND [Type] = 'short'
+ORDER BY NEWID()*/
 
 /*Selects a given number of random long Questions*/
 /*SELECT TOP 2 *
@@ -57,19 +52,17 @@ FROM Questions
 WHERE Difficulty = 3 AND [Type] = 'long'
 ORDER BY NEWID()*/
 
-/*CREATE PROCEDURE InsertQuestion (@TopicID int, @SubjectID int, @Difficulty int, @Type text, @Content text)
+CREATE PROCEDURE InsertQuestion (@TopicID int, @SubjectID int, @Difficulty int, @Type text, @Content text)
 AS
 BEGIN
 	insert into Questions (TopicID, SubjectID, Difficulty, [Type], Content) values (@TopicID, @SubjectID, @Difficulty, @Type, @Content)
-END */
+END
 
-
-/*CREATE PROCEDURE InsertMCQ (@Content text, @Difficulty int, @TopicID int, @SubjectID int, @OptionA text, @OptionB text, @OptionC text, @OptionD text, @Answer varchar)
+CREATE PROCEDURE InsertMCQ (@Content text, @Difficulty int, @ChapterID int, @SubjectID int, @OptionA text, @OptionB text, @OptionC text, @OptionD text, @Answer varchar)
 AS
 BEGIN
-	insert into MCQs (Content, Difficulty, TopicId, SubjectID, OptionA, OptionB, OptionC, OptionD, Answer) values (@Content, @Difficulty, @TopicID, @SubjectID, @OptionA, @OptionB, @OptionC, @OptionD, @Answer)
-END*/
-
+	insert into MCQs (Content, Difficulty, ChapterID, SubjectID, OptionA, OptionB, OptionC, OptionD, Answer) values (@Content, @Difficulty, @ChapterID, @SubjectID, @OptionA, @OptionB, @OptionC, @OptionD, @Answer)
+END
 
 /*Should fill more dummy data using ChatGPT and the above procedures, would probably need to show to chatGPT
 the Topic and Subject table*/
@@ -80,6 +73,17 @@ the Topic and Subject table*/
 EXEC GetRandomMCQs 4, N'سنّتِ نبوی', 5, 3;
 */
 
-/*EXEC InsertMCQ 'The one english question', 2, 1, 1, 'Urdu', 'Arabic', 'English', 'Spanish', 'C'*/
-/*EXEC InsertQuestion 1, 1, 1, 'short', 'Define English.'*/
+CREATE PROCEDURE GetTopics (@SubjectId, int)
+AS
+BEGIN
+	select *
+	from Topic
+	where SubjectId = @SubjectId 
+END
 
+CREATE PROCEDURE GetSubjects ()
+AS
+BEGIN
+	select SubjectID, SubjectName
+	from Subject
+END
