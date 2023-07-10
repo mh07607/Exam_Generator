@@ -52,14 +52,16 @@ FROM Questions
 WHERE Difficulty = 3 AND [Type] = 'long'
 ORDER BY NEWID()*/
 
-CREATE PROCEDURE InsertQuestion ()
+CREATE PROCEDURE InsertQuestion (@TopicID int, @SubjectID int, @Difficulty int, @Type text, @Content text)
 AS
 BEGIN
+	insert into Questions (TopicID, SubjectID, Difficulty, [Type], Content) values (@TopicID, @SubjectID, @Difficulty, @Type, @Content)
 END
 
-CREATE PROCEDURE InsertMCQ ()
+CREATE PROCEDURE InsertMCQ (@Content text, @Difficulty int, @ChapterID int, @SubjectID int, @OptionA text, @OptionB text, @OptionC text, @OptionD text, @Answer varchar)
 AS
 BEGIN
+	insert into MCQs (Content, Difficulty, ChapterID, SubjectID, OptionA, OptionB, OptionC, OptionD, Answer) values (@Content, @Difficulty, @ChapterID, @SubjectID, @OptionA, @OptionB, @OptionC, @OptionD, @Answer)
 END
 
 /*Should fill more dummy data using ChatGPT and the above procedures, would probably need to show to chatGPT
