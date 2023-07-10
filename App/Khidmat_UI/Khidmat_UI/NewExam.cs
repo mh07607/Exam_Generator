@@ -17,7 +17,7 @@ namespace Khidmat_UI
         //Arsalan laptopdb: DESKTOP-PEGIUMG\YEET
         //Arsalan pcdb: DESKTOP-6N9R52E\SQLEXPRESS
 
-        const string connectionString = @"Data Source=DESKTOP-6N9R52E\SQLEXPRESS; Initial Catalog = khidmat_test; Integrated Security = True";
+        const string connectionString = @"Data Source=DESKTOP-PEGIUMG\YEET; Initial Catalog = khidmat_test; Integrated Security = True";
         SqlConnection connection = new SqlConnection(connectionString);
         SqlCommand command = new SqlCommand();
 
@@ -28,14 +28,14 @@ namespace Khidmat_UI
         }
 
         private List<string> getSubjects()
-        {   
+        {
             List<string> subjectList = new List<string>();
 
             connection.Open();
             string query = "select SubjectName from Subject";
             command = new SqlCommand(query, connection);
             SqlDataReader reader = command.ExecuteReader();
-            while(reader.Read())
+            while (reader.Read())
             {
                 string subjectName = reader["SubjectName"].ToString();
                 subjectList.Add(subjectName);
@@ -184,7 +184,7 @@ namespace Khidmat_UI
             return topicIds;
         }
 
-        private List<(int, string, string, string, string, string, string)> GetMCQs() 
+        private List<(int, string, string, string, string, string, string)> GetMCQs()
         {
             List<(int, string, string, string, string, string, string)> mcQs = new List<(int, string, string, string, string, string, string)>();
 
@@ -203,9 +203,14 @@ namespace Khidmat_UI
         private string GenerateMCQTex()
         {
             string texContent = "";
-            
+
 
             return texContent;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            EditTopics editTopics = new EditTopics();
         }
 
         /*
@@ -219,6 +224,6 @@ namespace Khidmat_UI
 
         }
         */
-        
+
     }
 }
