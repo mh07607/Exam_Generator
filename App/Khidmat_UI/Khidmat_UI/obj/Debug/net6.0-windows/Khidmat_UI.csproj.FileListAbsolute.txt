@@ -41,3 +41,11 @@ E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\runti
 E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.NewExam.resources
 E:\repos\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.csproj.CopyComplete
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\System.Data.SqlClient.dll
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\runtimes\win-arm64\native\sni.dll
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\runtimes\win-x64\native\sni.dll
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\runtimes\win-x86\native\sni.dll
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.EditTopics.resources
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.csproj.CopyComplete
