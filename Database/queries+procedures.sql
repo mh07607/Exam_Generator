@@ -10,7 +10,7 @@ END
 */
 
 /*Use these to get a given past papers contents*/
-/*Create PROCEDURE GetPastPaperQuestions(@PaperId int)
+Create PROCEDURE GetPastPaperQuestions(@PaperId int)
 AS
 BEGIN
 	select Questions.Content, Questions.[Type]
@@ -42,14 +42,9 @@ END*/
 
 /*Selects a given number of random short Questions*/
 /*SELECT TOP 2 *
-CREATE PROCEDURE GetQuestion(@TopicID int, @SubjectID int, @Difficulty int, @Type text, @number int)
-AS
-BEGIN
-	SELECT TOP (@number) *
-	FROM Questions
-	WHERE Difficulty = @Difficulty AND [Type] = @Type and SubjectID = @SubjectId and TopicId = @TopicID 
-	ORDER BY NEWID()
-END*/
+FROM Questions
+WHERE Difficulty = 1 AND [Type] = 'short'
+ORDER BY NEWID()*/
 
 /*Selects a given number of random long Questions*/
 /*SELECT TOP 2 *
@@ -61,7 +56,7 @@ ORDER BY NEWID()*/
 AS
 BEGIN
 	insert into Questions (TopicID, SubjectID, Difficulty, [Type], Content) values (@TopicID, @SubjectID, @Difficulty, @Type, @Content)
-END */
+END
 
 
 /*CREATE PROCEDURE InsertMCQ (@Content nvarchar(max), @Difficulty int, @TopicID int, @OptionA nvarchar(max), @OptionB nvarchar(max), @OptionC nvarchar(max), @OptionD nvarchar(max), @Answer varchar)
@@ -102,3 +97,9 @@ EXEC InsertMCQ N'اعجازِ قرآن مجید کی تحقیق و تجزیہ ک
 select * from Topic
 
 
+CREATE PROCEDURE GetSubjects ()
+AS
+BEGIN
+	select SubjectID, SubjectName
+	from Subject
+END
