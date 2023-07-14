@@ -211,6 +211,7 @@ namespace Khidmat_UI
         private void button2_Click(object sender, EventArgs e)
         {
             EditTopics editTopics = new EditTopics();
+            editTopics.Show();
         }
 
         /*
