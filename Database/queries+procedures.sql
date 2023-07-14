@@ -10,14 +10,14 @@ END
 */
 
 /*Use these to get a given past papers contents*/
-Create PROCEDURE GetPastPaperQuestions(@PaperId int)
+/*Create PROCEDURE GetPastPaperQuestions(@PaperId int)
 AS
 BEGIN
 	select Questions.Content, Questions.[Type]
 	from Questions, Paper_Question
 	where Paper_Question.PaperID =@PaperId and Paper_Question.QuestionID = Questions.QuestionID
-end;
-*/
+end;*/
+
 
 /*Create PROCEDURE GetPastPaperMCQs(@PaperId int)
 AS
@@ -39,7 +39,16 @@ BEGIN
 																			WHERE SubjectName = @subjectName)
 	ORDER BY NEWID()
 END*/
-
+/*
+CREATE PROCEDURE GetRandomQuestions(@number int, @difficulty int, @type nvarchar(max))
+AS
+BEGIN
+	SELECT TOP (@number) *
+	FROM Questions
+	WHERE Difficulty = @difficulty and [Type] = @type
+	ORDER BY NEWID()
+END
+*/
 /*Selects a given number of random short Questions*/
 /*SELECT TOP 2 *
 FROM Questions
@@ -103,3 +112,6 @@ BEGIN
 	select SubjectID, SubjectName
 	from Subject
 END
+*/
+
+--EXEC GetRandomQuestions @1, 

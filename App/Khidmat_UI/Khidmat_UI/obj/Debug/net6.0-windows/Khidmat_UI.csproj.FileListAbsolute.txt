@@ -75,3 +75,11 @@ D:\Users\HP\Documents\GitHub\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\
 D:\Users\HP\Documents\GitHub\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.pdb
 D:\Users\HP\Documents\GitHub\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\Khidmat_UI.genruntimeconfig.cache
 D:\Users\HP\Documents\GitHub\Exam_Generator\App\Khidmat_UI\Khidmat_UI\obj\Debug\net6.0-windows\ref\Khidmat_UI.dll
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\Aspose.PDF.dll
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\Microsoft.Extensions.DependencyModel.dll
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\System.Diagnostics.DiagnosticSource.dll
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\System.Diagnostics.PerformanceCounter.dll
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\System.Security.Cryptography.Pkcs.dll
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.Diagnostics.PerformanceCounter.dll
+D:\uni\OneDrive - Habib University\web_dev\Exam_Generator\App\Khidmat_UI\Khidmat_UI\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
