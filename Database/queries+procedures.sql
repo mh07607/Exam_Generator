@@ -39,16 +39,43 @@ BEGIN
 																			WHERE SubjectName = @subjectName)
 	ORDER BY NEWID()
 END*/
+
 /*
-CREATE PROCEDURE GetRandomQuestions(@number int, @difficulty int, @type nvarchar(max))
+CREATE PROCEDURE GetRandomQuestions(@numEasy int, 
+@numMedium int, 
+@numHard int, 
+@type nvarchar(max))
 AS
 BEGIN
-	SELECT TOP (@number) *
+	SELECT * FROM (
+	SELECT TOP (@numEasy) *
 	FROM Questions
-	WHERE Difficulty = @difficulty and [Type] = @type
+	WHERE Difficulty = 1 and [Type] = @type
 	ORDER BY NEWID()
+	) YEET
+
+	UNION ALL
+
+	SELECT * FROM (
+	SELECT TOP (@numMedium) *
+	FROM Questions
+	WHERE Difficulty = 2 and [Type] = @type
+	ORDER BY NEWID()
+	) 
+	DEFEAT
+	UNION ALL
+
+	SELECT * FROM (
+	SELECT TOP (@numHard) *
+	FROM Questions
+	WHERE Difficulty = 3 and [Type] = @type
+	ORDER BY NEWID()
+	) 
+	MEAT
+	
 END
 */
+
 /*Selects a given number of random short Questions*/
 /*SELECT TOP 2 *
 FROM Questions
@@ -114,4 +141,15 @@ BEGIN
 END
 */
 
---EXEC GetRandomQuestions @1, 
+--EXEC GetRandomQuestions 2, 3, 'long' 
+/*EXEC GetRandomQuestions 2, 
+2, 
+1, 
+69, 
+'short'
+*/
+
+EXEC GetRandomQuestions 2, 
+2, 
+1,  
+'short'
