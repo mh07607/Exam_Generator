@@ -76,6 +76,39 @@ BEGIN
 END
 */
 
+CREATE PROCEDURE GetRandomMCQs(@numEasy int, 
+@numMedium int, 
+@numHard int, 
+@type nvarchar(max))
+AS
+BEGIN
+	SELECT * FROM (
+	SELECT TOP (@numEasy) *
+	FROM MCQs
+	WHERE Difficulty = 1 
+	ORDER BY NEWID()
+	) YEET
+
+	UNION ALL
+
+	SELECT * FROM (
+	SELECT TOP (@numMedium) *
+	FROM MCQs
+	WHERE Difficulty = 2
+	ORDER BY NEWID()
+	) 
+	DEFEAT
+	UNION ALL
+
+	SELECT * FROM (
+	SELECT TOP (@numHard) *
+	FROM MCQs
+	WHERE Difficulty = 3
+	ORDER BY NEWID()
+	) 
+	MEAT
+END
+
 /*Selects a given number of random short Questions*/
 /*SELECT TOP 2 *
 FROM Questions

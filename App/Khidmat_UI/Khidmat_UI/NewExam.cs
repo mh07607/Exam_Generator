@@ -237,7 +237,8 @@ namespace Khidmat_UI
 \begin{RTL} ";
 
             texContent = texContent + GenerateShortTex();
-
+            texContent = texContent + GenerateLongTex();
+            texContent = texContent + GenerateMCQTex();
             texContent = texContent + @" \end{RTL}
 \end{document}";
             return texContent;
@@ -282,9 +283,33 @@ namespace Khidmat_UI
         }
         private string GenerateMCQTex()
         {
-            string texContent = "";
+            string texContent = @" \section{ایم سی کیو}
+    \begin{questions} "; 
+            string numEasy = textBox1.Text;
+            string numMedium = textBox3.Text;
+            string numHard = textBox4.Text;
 
+            connection.Open();
+            string query = "EXEC GetRandomMCQs " + numEasy + "," + numMedium + "," + numHard + "," + "short";
+            command = new SqlCommand(query, connection);
+            SqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                int value1 = reader.GetInt32(0); /*MCQID*/
+                string value2 = reader.GetString(1); /*#Content*/
+                string value3 = reader.GetString(4); /*Option A*/
+                string value4 = reader.GetString(5); /*Option B*/
+                string value5 = reader.GetString(6); /*Option C*/
+                string value6 = reader.GetString(7); /*Option D*/
 
+                texContent = texContent + @"\begin{Arabic} \question " + value2 + @" // A. " + value3 + @" // B. " + value4 + @" // C. " + value5 + @" // D. " + value6 + @" \end{Arabic} ";
+            }
+            reader.Close();
+            command.Dispose();
+            connection.Close();
+
+            texContent = texContent + @" \end{questions}";
             return texContent;
         }
 
@@ -335,12 +360,46 @@ namespace Khidmat_UI
                 
         }
 
-        /*
+        
         private string GenerateLongTex()
         {
+            string texContent = @" \section{طویل سوالات}
+    \begin{questions} ";
 
+            string numEasy = textBox11.Text;
+            string numMedium = textBox10.Text;
+            string numHard = textBox9.Text;
+
+            List<Tuple<int, int, int, string, string>> shortQuestions =
+                new List<Tuple<int, int, int, string, string>>();
+
+            connection.Open();
+            string query = "EXEC GetRandomQuestions " + numEasy + "," + numMedium + "," + numHard + "," + "long";
+            command = new SqlCommand(query, connection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                int value1 = reader.GetInt32(0);
+                int value2 = reader.GetInt32(1);
+                int value3 = reader.GetInt32(2);
+                string value4 = reader.GetString(3);
+                string value5 = reader.GetString(4);
+
+                texContent = texContent + @" \begin{Arabic} \question " + value5 + @" \end{Arabic} ";
+
+
+                Tuple<int, int, int, string, string> question = Tuple.Create(value1, value2, value3, value4, value5);
+                shortQuestions.Add(question);
+
+            }
+            reader.Close();
+            command.Dispose();
+            connection.Close();
+
+            texContent = texContent + @" \end{questions}";
+            return texContent;
         }
-        */
+        
 
     }
 }
