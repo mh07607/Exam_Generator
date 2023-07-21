@@ -20,8 +20,10 @@ namespace Khidmat_UI
     {
         //Arsalan laptopdb: DESKTOP-PEGIUMG\YEET
         //Arsalan pcdb: DESKTOP-6N9R52E\SQLEXPRESS
+        // connecting laptop db to pc app: const string connectionString = @"Data Source=DESKTOP-PEGIUMG; Initial Catalog = khidmat_test1; Integrated Security = False; user id=Admin;password=Blaze30083;";
+        //same laptop: const string connectionString = @"Data Source=DESKTOP-PEGIUMG; Initial Catalog = khidmat_test1; Integrated Security = True;"
 
-        const string connectionString = @"Data Source=DESKTOP-PEGIUMG\YEET; Initial Catalog = khidmat_test1; Integrated Security = True";
+        const string connectionString = @"Data Source=DESKTOP-PEGIUMG; Initial Catalog = khidmat_test1; Integrated Security = False; user id=Admin;password=Blaze30083;";
         SqlConnection connection = new SqlConnection(connectionString);
         SqlCommand command = new SqlCommand();
 
@@ -55,6 +57,46 @@ namespace Khidmat_UI
         {
             List<string> subjectList = getSubjects();
             comboBox1.DataSource = subjectList.ToArray();
+
+
+            List<string> topicList = new List<string>();
+            connection.Open();
+            string query = "select * from Topic";
+            command = new SqlCommand(query, connection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                string topicName = reader["TopicName"].ToString();
+                topicList.Add(topicName);
+            }
+            reader.Close();
+            command.Dispose();
+            connection.Close();
+
+            for (int i = 0; i < topicList.Count; i++)
+            {
+                Label topicName = new Label();
+
+                topicName.Text = topicList[i];
+
+                TextBox numMcqs = new TextBox();
+                TextBox numShort = new TextBox();
+                TextBox numLong = new TextBox();
+
+                topicName.Location = new System.Drawing.Point(60, 55 + (i * 30));
+                numMcqs.Location = new System.Drawing.Point(320, 50 + (i * 30));
+                numShort.Location = new System.Drawing.Point(420, 50 + (i * 30));
+                numLong.Location = new System.Drawing.Point(520, 50 + (i * 30));
+
+                numMcqs.Width = numShort.Width = numLong.Width = 40;
+                numMcqs.Height = numShort.Height = numLong.Height = 25;
+
+                groupBox4.Controls.Add(topicName);
+                groupBox4.Controls.Add(numMcqs);
+                groupBox4.Controls.Add(numShort);
+                groupBox4.Controls.Add(numLong);
+
+            }
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
@@ -284,7 +326,7 @@ namespace Khidmat_UI
         private string GenerateMCQTex()
         {
             string texContent = @" \section{ایم سی کیو}
-    \begin{questions} "; 
+    \begin{questions} ";
             string numEasy = textBox1.Text;
             string numMedium = textBox3.Text;
             string numHard = textBox4.Text;
@@ -293,7 +335,7 @@ namespace Khidmat_UI
             string query = "EXEC GetRandomMCQs " + numEasy + "," + numMedium + "," + numHard + "," + "short";
             command = new SqlCommand(query, connection);
             SqlDataReader reader = command.ExecuteReader();
-            
+
             while (reader.Read())
             {
                 int value1 = reader.GetInt32(0); /*MCQID*/
@@ -319,17 +361,17 @@ namespace Khidmat_UI
             editTopics.Show();
         }
 
-        
+
         private string GenerateShortTex()
         {
             string texContent = @" \section{مختصر سوالات}
     \begin{questions} ";
-               
+
             string numEasy = textBox5.Text;
             string numMedium = textBox6.Text;
             string numHard = textBox7.Text;
 
-            List <Tuple<int, int, int, string, string>> shortQuestions=
+            List<Tuple<int, int, int, string, string>> shortQuestions =
                 new List<Tuple<int, int, int, string, string>>();
 
             connection.Open();
@@ -357,10 +399,10 @@ namespace Khidmat_UI
 
             texContent = texContent + @" \end{questions}";
             return texContent;
-                
+
         }
 
-        
+
         private string GenerateLongTex()
         {
             string texContent = @" \section{طویل سوالات}
@@ -399,7 +441,20 @@ namespace Khidmat_UI
             texContent = texContent + @" \end{questions}";
             return texContent;
         }
-        
 
+        private void groupBox4_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            groupBox4.Visible = !groupBox4.Visible;
+        }
     }
 }

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            button1 = new Button();
             groupBox1 = new GroupBox();
             label2 = new Label();
             label5 = new Label();
@@ -62,9 +61,17 @@
             textBox10 = new TextBox();
             label6 = new Label();
             comboBox1 = new ComboBox();
+            groupBox4 = new GroupBox();
+            label15 = new Label();
+            label16 = new Label();
+            label17 = new Label();
+            label18 = new Label();
+            button1 = new Button();
+            button5 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
+            groupBox4.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -76,16 +83,6 @@
             label1.TabIndex = 0;
             label1.Text = "Generate new exam";
             label1.Click += label1_Click;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(713, 567);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 2;
-            button1.Text = "Generate";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
             // 
             // groupBox1
             // 
@@ -386,13 +383,88 @@
             comboBox1.Size = new Size(121, 23);
             comboBox1.TabIndex = 4;
             // 
+            // groupBox4
+            // 
+            groupBox4.AutoSize = true;
+            groupBox4.Controls.Add(label15);
+            groupBox4.Controls.Add(label16);
+            groupBox4.Controls.Add(label17);
+            groupBox4.Controls.Add(label18);
+            groupBox4.Location = new Point(29, 484);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Size = new Size(735, 96);
+            groupBox4.TabIndex = 3;
+            groupBox4.TabStop = false;
+            groupBox4.Enter += groupBox4_Enter;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(61, 29);
+            label15.Name = "label15";
+            label15.Size = new Size(70, 15);
+            label15.TabIndex = 3;
+            label15.Text = "Topic Name";
+            label15.Click += label2_Click_1;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(509, 28);
+            label16.Name = "label16";
+            label16.Size = new Size(72, 15);
+            label16.TabIndex = 3;
+            label16.Text = "No. of Hard:";
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(308, 29);
+            label17.Name = "label17";
+            label17.Size = new Size(69, 15);
+            label17.TabIndex = 3;
+            label17.Text = "No. of Easy:";
+            label17.Click += label17_Click;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(408, 29);
+            label18.Name = "label18";
+            label18.Size = new Size(91, 15);
+            label18.TabIndex = 3;
+            label18.Text = "No. of Medium:";
+            // 
+            // button1
+            // 
+            button1.Location = new Point(713, 734);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 2;
+            button1.Text = "Generate";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(31, 471);
+            button5.Name = "button5";
+            button5.Size = new Size(75, 23);
+            button5.TabIndex = 5;
+            button5.Text = "MCQs";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click_1;
+            // 
             // NewExam
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 602);
+            AutoScroll = true;
+            ClientSize = new Size(800, 769);
+            Controls.Add(button5);
             Controls.Add(comboBox1);
             Controls.Add(label6);
+            Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -407,6 +479,8 @@
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -414,7 +488,6 @@
         #endregion
 
         private Label label1;
-        private Button button1;
         private GroupBox groupBox1;
         private GroupBox groupBox2;
         private GroupBox groupBox3;
@@ -447,5 +520,12 @@
         private Label label12;
         private TextBox textBox10;
         private ComboBox comboBox1;
+        private GroupBox groupBox4;
+        private Label label16;
+        private Label label17;
+        private Label label18;
+        private Label label15;
+        private Button button1;
+        private Button button5;
     }
 }
