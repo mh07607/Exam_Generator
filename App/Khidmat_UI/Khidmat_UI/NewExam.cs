@@ -88,6 +88,8 @@ namespace Khidmat_UI
                 numShort.Location = new System.Drawing.Point(420, 50 + (i * 30));
                 numLong.Location = new System.Drawing.Point(520, 50 + (i * 30));
 
+                topicName.AutoSize = true;
+
                 numMcqs.Width = numShort.Width = numLong.Width = 40;
                 numMcqs.Height = numShort.Height = numLong.Height = 25;
 

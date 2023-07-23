@@ -460,6 +460,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
+            AutoSize = true;
             ClientSize = new Size(800, 769);
             Controls.Add(button5);
             Controls.Add(comboBox1);
