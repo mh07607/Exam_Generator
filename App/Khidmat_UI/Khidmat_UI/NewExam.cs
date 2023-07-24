@@ -23,6 +23,9 @@ namespace Khidmat_UI
         // connecting laptop db to pc app: const string connectionString = @"Data Source=DESKTOP-PEGIUMG; Initial Catalog = khidmat_test1; Integrated Security = False; user id=Admin;password=Blaze30083;";
         //same laptop: const string connectionString = @"Data Source=DESKTOP-PEGIUMG; Initial Catalog = khidmat_test1; Integrated Security = True;"
 
+        List<(string, TextBox, TextBox, TextBox)> ShortQuestions = new List<(string, TextBox, TextBox, TextBox)>();
+        List<(string, TextBox, TextBox, TextBox)> LongQuestions = new List<(string, TextBox, TextBox, TextBox)>();
+        List<(string, TextBox, TextBox, TextBox)> MCQs = new List<(string, TextBox, TextBox, TextBox)>();
         const string connectionString = @"Data Source=DESKTOP-PEGIUMG; Initial Catalog = khidmat_test1; Integrated Security = False; user id=Admin;password=Blaze30083;";
         SqlConnection connection = new SqlConnection(connectionString);
         SqlCommand command = new SqlCommand();
@@ -79,25 +82,27 @@ namespace Khidmat_UI
 
                 topicName.Text = topicList[i];
 
-                TextBox numMcqs = new TextBox();
-                TextBox numShort = new TextBox();
-                TextBox numLong = new TextBox();
+                TextBox numEasyShort = new TextBox();
+                TextBox numMediumShort = new TextBox();
+                TextBox numHardShort = new TextBox();
 
                 topicName.Location = new System.Drawing.Point(60, 55 + (i * 30));
-                numMcqs.Location = new System.Drawing.Point(320, 50 + (i * 30));
-                numShort.Location = new System.Drawing.Point(420, 50 + (i * 30));
-                numLong.Location = new System.Drawing.Point(520, 50 + (i * 30));
+                numEasyShort.Location = new System.Drawing.Point(320, 50 + (i * 30));
+                numMediumShort.Location = new System.Drawing.Point(420, 50 + (i * 30));
+                numHardShort.Location = new System.Drawing.Point(520, 50 + (i * 30));
 
                 topicName.AutoSize = true;
 
-                numMcqs.Width = numShort.Width = numLong.Width = 40;
-                numMcqs.Height = numShort.Height = numLong.Height = 25;
+                numEasyShort.Width = numMediumShort.Width = numHardShort.Width = 40;
+                numEasyShort.Height = numMediumShort.Height = numHardShort.Height = 25;
 
                 groupBox4.Controls.Add(topicName);
-                groupBox4.Controls.Add(numMcqs);
-                groupBox4.Controls.Add(numShort);
-                groupBox4.Controls.Add(numLong);
+                groupBox4.Controls.Add(numEasyShort);
+                groupBox4.Controls.Add(numMediumShort);
+                groupBox4.Controls.Add(numHardShort);
 
+                (string topicName, TextBox easyShort, TextBox mediumShort, TextBox hardShort) data = (topicList[i], numEasyShort, numMediumShort, numHardShort);
+                ShortQuestions.Add(data);
             }
         }
 
@@ -368,8 +373,45 @@ namespace Khidmat_UI
         {
             string texContent = @" \section{مختصر سوالات}
     \begin{questions} ";
+            for (int i = 0; i < ShortQuestions.Count; i++)
+            {
+                string topic = ShortQuestions[i].Item1;
+                string numEasy = ShortQuestions[i].Item2.Text;
+                string numMedium = ShortQuestions[i].Item3.Text;
+                string numHard = ShortQuestions[i].Item4.Text;
+                if (string.IsNullOrEmpty(numEasy))
+                {
+                    numEasy = "0";
+                }
+                if (string.IsNullOrEmpty(numMedium))
+                {
+                    numMedium = "0";
+                }
+                if (string.IsNullOrEmpty(numHard))
+                {
+                    numHard = "0";
+                }
 
-            string numEasy = textBox5.Text;
+                List<int> shortQuestionIDs = new List<int>();
+                connection.Open();
+                string query = "EXEC GetRandomQuestions " + numEasy + "," + numMedium + "," + numHard + "," + "short" + "," + topic;
+                command = new SqlCommand(query, connection);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int value1 = reader.GetInt32(0); /*QuestionID*/
+                    string value5 = reader.GetString(4); /*Content*/
+
+                    texContent = texContent + @" \begin{Arabic} \question " + value5 + @" \end{Arabic} ";
+                    shortQuestionIDs.Add(value1);
+                }
+                reader.Close();
+                command.Dispose();
+                connection.Close(); /*Here readrer is being opened and closed for each topic would that be a problem?*/
+            }
+            texContent = texContent + @" \end{questions}";
+            return texContent;
+            /*string numEasy = textBox5.Text;
             string numMedium = textBox6.Text;
             string numHard = textBox7.Text;
 
@@ -400,7 +442,7 @@ namespace Khidmat_UI
             connection.Close();
 
             texContent = texContent + @" \end{questions}";
-            return texContent;
+            return texContent; */
 
         }
 
