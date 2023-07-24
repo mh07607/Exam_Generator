@@ -11,7 +11,6 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Security.AccessControl;
 using System.Reflection.Metadata;
-using Aspose.Pdf;
 using System.Diagnostics;
 
 namespace Khidmat_UI
@@ -137,78 +136,48 @@ namespace Khidmat_UI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            /*
-            string texContent = GenerateTexContent();
-
-            string outputDirectory = @"C:\Users\Arsalan\Downloads";
-
-            string outputFileName = "exam.tex";
-            string pdfFileName = "exam.pdf";
-
-            // Combine the output directory and file name to create the full file path
-            string outputPath = Path.Combine(outputDirectory, outputFileName);
-            string pdfPath = Path.Combine(outputDirectory, pdfFileName);
-
-            try
-            {
-                File.WriteAllText(outputPath, texContent);
-
-                TeXLoadOptions options = new TeXLoadOptions();
-                // Create Document object and initialize it
-                Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(outputPath, options);
-                pdfDocument.LaTeXOptions.TeXProgramPath = "xelatex";
-                // Save LaTeX file as PDF
-                pdfDocument.Save(pdfPath);
-
-                Console.WriteLine("TeX file generated successfully.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("An error occurred: " + ex.Message);
-            }
-            */
 
             string texContent = GenerateTexContent();
-            string outputDirectory = @"C:\Users\Arsalan\Downloads";
+            string outputDirectory = @"C:\Users\Arsalan\Downloads\Exam";
             string outputFileName = "exam.tex";
             string pdfFileName = "exam.pdf";
             string outputPath = Path.Combine(outputDirectory, outputFileName);
             string pdfPath = Path.Combine(outputDirectory, pdfFileName);
 
-            try
+            File.WriteAllText(outputPath, texContent);
+
+            // Run xelatex command to compile the .tex file to PDF.
+            ProcessStartInfo processInfo = new ProcessStartInfo
             {
-                File.WriteAllText(outputPath, texContent);
+                FileName = "xelatex",
+                Arguments = $"-output-directory={outputDirectory} {outputPath}",
+                UseShellExecute = false,
+                RedirectStandardError = true,
+                CreateNoWindow = false,
+                WorkingDirectory = outputDirectory  // Set the working directory to the .tex file location.
+            };
 
-                // Execute XeLaTeX command using Process class
-                Process process = new Process();
-                process.StartInfo.FileName = "xelatex"; // Path to XeLaTeX executable
-                process.StartInfo.Arguments = $"-output-directory=\"{outputDirectory}\" \"{outputPath}\"";
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.Start();
-
-                // Wait for the process to finish
-                process.WaitForExit();
-
-                if (process.ExitCode == 0)
-                {
-                    Console.WriteLine("TeX file compiled successfully.");
-
-                    // Rename the generated PDF file
-                    string generatedPdfPath = Path.ChangeExtension(outputPath, ".pdf");
-                    File.Move(generatedPdfPath, pdfPath);
-
-                    Console.WriteLine("PDF file generated successfully.");
-                }
-                else
-                {
-                    Console.WriteLine("An error occurred while compiling the TeX file.");
-                }
-            }
-            catch (Exception ex)
+            Process process = new Process
             {
-                Console.WriteLine("An error occurred: " + ex.Message);
+                StartInfo = processInfo
+            };
+
+            process.Start();
+            process.WaitForExit();
+
+            // Check if the PDF was successfully generated.
+            if (File.Exists(pdfPath))
+            {
+                // Optionally, you can open the generated PDF file using the default PDF viewer.
+                //Process.Start(pdfPath);
             }
+            else
+            {
+                string errorOutput = process.StandardError.ReadToEnd();
+                // Handle the error if the PDF was not generated.
+                // You can display the error message to the user or log it for further investigation.
+            }
+
         }
 
         private string GenerateTexContent()
@@ -371,6 +340,8 @@ namespace Khidmat_UI
 
         private string GenerateShortTex()
         {
+
+            /*
             string texContent = @" \section{مختصر سوالات}
     \begin{questions} ";
             for (int i = 0; i < ShortQuestions.Count; i++)
@@ -399,19 +370,25 @@ namespace Khidmat_UI
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    int value1 = reader.GetInt32(0); /*QuestionID*/
-                    string value5 = reader.GetString(4); /*Content*/
+                    int value1 = reader.GetInt32(0); //QuestionID
+                    string value5 = reader.GetString(4); //Content
 
                     texContent = texContent + @" \begin{Arabic} \question " + value5 + @" \end{Arabic} ";
                     shortQuestionIDs.Add(value1);
                 }
                 reader.Close();
                 command.Dispose();
-                connection.Close(); /*Here readrer is being opened and closed for each topic would that be a problem?*/
+                connection.Close(); //Here readrer is being opened and closed for each topic would that be a problem?*
             }
             texContent = texContent + @" \end{questions}";
             return texContent;
-            /*string numEasy = textBox5.Text;
+
+            */
+
+            
+            string texContent = @" \section{مختصر سوالات}
+    \begin{questions} ";
+            string numEasy = textBox5.Text;
             string numMedium = textBox6.Text;
             string numHard = textBox7.Text;
 
@@ -442,7 +419,7 @@ namespace Khidmat_UI
             connection.Close();
 
             texContent = texContent + @" \end{questions}";
-            return texContent; */
+            return texContent; 
 
         }
 

@@ -75,7 +75,7 @@ BEGIN
 	
 END
 */
-
+/*
 CREATE PROCEDURE GetRandomMCQs(@numEasy int, 
 @numMedium int, 
 @numHard int, 
@@ -108,7 +108,7 @@ BEGIN
 	) 
 	MEAT
 END
-
+*/
 /*Selects a given number of random short Questions*/
 /*SELECT TOP 2 *
 FROM Questions
