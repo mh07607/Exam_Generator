@@ -275,7 +275,7 @@ namespace Khidmat_UI
                     numHard = "0";
                 }
                 connection.Open();
-                string query = "EXEC GetRandomMCQs " + numEasy + "," + numMedium + "," + numHard + "," + "short" + "," + topic;
+                string query = "EXEC GetRandomMCQs " + numEasy + "," + numMedium + "," + numHard + "," + topic;
                 command = new SqlCommand(query, connection);
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
