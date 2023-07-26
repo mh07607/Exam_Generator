@@ -287,12 +287,12 @@ namespace Khidmat_UI
                     string value5 = reader.GetString(6); //Option C
                     string value6 = reader.GetString(7); //Option D
 
-                    texContent = texContent + @"\begin{Arabic} \question " + value2 + @" // A. " + value3 + @" // B. " + value4 + @" // C. " + value5 + @" // D. " + value6 + @" \end{Arabic} ";
+                    texContent = texContent + @"\begin{Arabic} \question " + value2 + @" \begin{choices} \choice A. " + value3 + @" \choice B. " + value4 + @" \choice C. " + value5 + @" \choice D. " + value6 + @" \end{choices} \end{Arabic} ";
                     MCQIDs.Add(value1);
-                    reader.Close();
-                    command.Dispose();
-                    connection.Close();
                 }
+                reader.Close();
+                command.Dispose();
+                connection.Close();
             }
             texContent = texContent + @" \end{questions}";
             return texContent;
@@ -374,7 +374,7 @@ namespace Khidmat_UI
                 }
 
                 connection.Open();
-                string query = "EXEC GetRandomQuestions " + numEasy + "," + numMedium + "," + numHard + "," + "short" + "," + topic;
+                string query = "EXEC GetRandomQuestions " + numEasy + "," + numMedium + "," + numHard + "," + "long" + "," + topic;
                 command = new SqlCommand(query, connection);
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())

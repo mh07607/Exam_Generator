@@ -184,7 +184,4 @@ END
 'short'
 */
 
-EXEC GetRandomQuestions 2, 
-2, 
-1,  
-'short'
+select * from MCQs
