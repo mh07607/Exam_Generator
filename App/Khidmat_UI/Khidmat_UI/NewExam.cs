@@ -203,9 +203,9 @@ namespace Khidmat_UI
 
 \begin{RTL} ";
 
-            //texContent = texContent + GenerateShortTex();
-            //texContent = texContent + GenerateLongTex();
-            //texContent = texContent + GenerateMCQTex();
+            texContent = texContent + GenerateShortTex();
+            texContent = texContent + GenerateLongTex();
+            texContent = texContent + GenerateMCQTex();
             texContent = texContent + @" \end{RTL}
 \end{document}";
             return texContent;
@@ -249,39 +249,54 @@ namespace Khidmat_UI
             connection.Close();
 
             return mcQs;
-        }
+        }*/
+
         private string GenerateMCQTex()
         {
             string texContent = @" \section{ایم سی کیو}
     \begin{questions} ";
-            string numEasy = textBox1.Text;
-            string numMedium = textBox3.Text;
-            string numHard = textBox4.Text;
-
-            connection.Open();
-            string query = "EXEC GetRandomMCQs " + numEasy + "," + numMedium + "," + numHard + "," + "short";
-            command = new SqlCommand(query, connection);
-            SqlDataReader reader = command.ExecuteReader();
-
-            while (reader.Read())
+            List<int> MCQIDs = new List<int>();
+            for (int i = 0; i < ShortQuestions.Count; i++)
             {
-                int value1 = reader.GetInt32(0); //MCQID
-                string value2 = reader.GetString(1); //Content
-                string value3 = reader.GetString(4); //Option A
-                string value4 = reader.GetString(5); //Option B
-                string value5 = reader.GetString(6); //Option C
-                string value6 = reader.GetString(7); //Option D
+                string topic = MCQs[i].Item1.ToString();
+                string numEasy = MCQs[i].Item2.Text;
+                string numMedium = MCQs[i].Item3.Text;
+                string numHard = MCQs[i].Item4.Text;
+                if (string.IsNullOrEmpty(numEasy))
+                {
+                    numEasy = "0";
+                }
+                if (string.IsNullOrEmpty(numMedium))
+                {
+                    numMedium = "0";
+                }
+                if (string.IsNullOrEmpty(numHard))
+                {
+                    numHard = "0";
+                }
+                connection.Open();
+                string query = "EXEC GetRandomMCQs " + numEasy + "," + numMedium + "," + numHard + "," + "short" + "," + topic;
+                command = new SqlCommand(query, connection);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int value1 = reader.GetInt32(0); //MCQID
+                    string value2 = reader.GetString(1); //Content
+                    string value3 = reader.GetString(4); //Option A
+                    string value4 = reader.GetString(5); //Option B
+                    string value5 = reader.GetString(6); //Option C
+                    string value6 = reader.GetString(7); //Option D
 
-                texContent = texContent + @"\begin{Arabic} \question " + value2 + @" // A. " + value3 + @" // B. " + value4 + @" // C. " + value5 + @" // D. " + value6 + @" \end{Arabic} ";
+                    texContent = texContent + @"\begin{Arabic} \question " + value2 + @" // A. " + value3 + @" // B. " + value4 + @" // C. " + value5 + @" // D. " + value6 + @" \end{Arabic} ";
+                    MCQIDs.Add(value1);
+                    reader.Close();
+                    command.Dispose();
+                    connection.Close();
+                }
             }
-            reader.Close();
-            command.Dispose();
-            connection.Close();
-
             texContent = texContent + @" \end{questions}";
             return texContent;
         }
-        */
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -294,9 +309,10 @@ namespace Khidmat_UI
         {
             string texContent = @" \section{مختصر سوالات}
     \begin{questions} ";
+            List<int> shortQuestionIDs = new List<int>();
             for (int i = 0; i < ShortQuestions.Count; i++)
             {
-                int topic = ShortQuestions[i].Item1;
+                string topic = ShortQuestions[i].Item1.ToString();
                 string numEasy = ShortQuestions[i].Item2.Text;
                 string numMedium = ShortQuestions[i].Item3.Text;
                 string numHard = ShortQuestions[i].Item4.Text;
@@ -312,8 +328,6 @@ namespace Khidmat_UI
                 {
                     numHard = "0";
                 }
-
-                List<int> shortQuestionIDs = new List<int>();
                 connection.Open();
                 string query = "EXEC GetRandomQuestions " + numEasy + "," + numMedium + "," + numHard + "," + "short" + "," + topic;
                 command = new SqlCommand(query, connection);
@@ -334,85 +348,51 @@ namespace Khidmat_UI
             return texContent;
         }
 
-        /*
-        string texContent = @" \section{مختصر سوالات}
-\begin{questions} ";
-        string numEasy = textBox5.Text;
-        string numMedium = textBox6.Text;
-        string numHard = textBox7.Text;
 
-        List<Tuple<int, int, int, string, string>> shortQuestions =
-            new List<Tuple<int, int, int, string, string>>();
-
-        connection.Open();
-        string query = "EXEC GetRandomQuestions " + numEasy + "," + numMedium + "," + numHard + "," + "short";
-        command = new SqlCommand(query, connection);
-        SqlDataReader reader = command.ExecuteReader();
-        while (reader.Read())
+        private string GenerateLongTex()
         {
-            int value1 = reader.GetInt32(0);
-            int value2 = reader.GetInt32(1);
-            int value3 = reader.GetInt32(2);
-            string value4 = reader.GetString(3);
-            string value5 = reader.GetString(4);
-
-            texContent = texContent + @" \begin{Arabic} \question " + value5 + @" \end{Arabic} ";
-
-
-            Tuple<int, int, int, string, string> question = Tuple.Create(value1, value2, value3, value4, value5);
-            shortQuestions.Add(question);
-
-        }
-        reader.Close();
-        command.Dispose();
-        connection.Close();
-
-        texContent = texContent + @" \end{questions}";
-        return texContent;
-
-    }
-
-
-
-    private string GenerateLongTex()
-    {
-        string texContent = @" \section{طویل سوالات}
+            string texContent = @" \section{طویل سوالات}
 \begin{questions} ";
+            List<int> longQuestionIDs = new List<int>();
+            for (int i = 0; i < ShortQuestions.Count; i++)
+            {
+                string topic = LongQuestions[i].Item1.ToString();
+                string numEasy = LongQuestions[i].Item2.Text;
+                string numMedium = LongQuestions[i].Item3.Text;
+                string numHard = LongQuestions[i].Item4.Text;
+                if (string.IsNullOrEmpty(numEasy))
+                {
+                    numEasy = "0";
+                }
+                if (string.IsNullOrEmpty(numMedium))
+                {
+                    numMedium = "0";
+                }
+                if (string.IsNullOrEmpty(numHard))
+                {
+                    numHard = "0";
+                }
 
-        string numEasy = textBox11.Text;
-        string numMedium = textBox10.Text;
-        string numHard = textBox9.Text;
+                connection.Open();
+                string query = "EXEC GetRandomQuestions " + numEasy + "," + numMedium + "," + numHard + "," + "short" + "," + topic;
+                command = new SqlCommand(query, connection);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int value1 = reader.GetInt32(0); //QuestionID
+                    string value5 = reader.GetString(4); //Content
 
-        List<Tuple<int, int, int, string, string>> shortQuestions =
-            new List<Tuple<int, int, int, string, string>>();
-
-        connection.Open();
-        string query = "EXEC GetRandomQuestions " + numEasy + "," + numMedium + "," + numHard + "," + "long";
-        command = new SqlCommand(query, connection);
-        SqlDataReader reader = command.ExecuteReader();
-        while (reader.Read())
-        {
-            int value1 = reader.GetInt32(0);
-            int value2 = reader.GetInt32(1);
-            int value3 = reader.GetInt32(2);
-            string value4 = reader.GetString(3);
-            string value5 = reader.GetString(4);
-
-            texContent = texContent + @" \begin{Arabic} \question " + value5 + @" \end{Arabic} ";
-
-
-            Tuple<int, int, int, string, string> question = Tuple.Create(value1, value2, value3, value4, value5);
-            shortQuestions.Add(question);
-
+                    texContent = texContent + @" \begin{Arabic} \question " + value5 + @" \end{Arabic} ";
+                    longQuestionIDs.Add(value1);
+                }
+                reader.Close();
+                command.Dispose();
+                connection.Close(); //Here readrer is being opened and closed for each topic would that be a problem?*
+            }
+            texContent = texContent + @" \end{questions}";
+            return texContent;
         }
-        reader.Close();
-        command.Dispose();
-        connection.Close();
-
-        texContent = texContent + @" \end{questions}";
-        return texContent;
-    }
-    */
+        
 
         private void groupBox4_Enter(object sender, EventArgs e)
         {

@@ -1419,19 +1419,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Arsalan\\.nuget\\packages\\": {}
+    "C:\\Users\\HP\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\uni\\OneDrive - Habib University\\web_dev\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj",
+      "projectUniqueName": "D:\\Users\\HP\\Documents\\GitHub\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj",
       "projectName": "Khidmat_UI",
-      "projectPath": "D:\\uni\\OneDrive - Habib University\\web_dev\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj",
-      "packagesPath": "C:\\Users\\Arsalan\\.nuget\\packages\\",
-      "outputPath": "D:\\uni\\OneDrive - Habib University\\web_dev\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\obj\\",
+      "projectPath": "D:\\Users\\HP\\Documents\\GitHub\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj",
+      "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+      "outputPath": "D:\\Users\\HP\\Documents\\GitHub\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Arsalan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1488,13 +1488,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file D:\\uni\\OneDrive - Habib University\\web_dev\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }

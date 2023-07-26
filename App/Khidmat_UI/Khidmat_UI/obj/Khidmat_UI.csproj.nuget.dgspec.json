@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\uni\\OneDrive - Habib University\\web_dev\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj": {}
+    "D:\\Users\\HP\\Documents\\GitHub\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj": {}
   },
   "projects": {
-    "D:\\uni\\OneDrive - Habib University\\web_dev\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj": {
+    "D:\\Users\\HP\\Documents\\GitHub\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\uni\\OneDrive - Habib University\\web_dev\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj",
+        "projectUniqueName": "D:\\Users\\HP\\Documents\\GitHub\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj",
         "projectName": "Khidmat_UI",
-        "projectPath": "D:\\uni\\OneDrive - Habib University\\web_dev\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj",
-        "packagesPath": "C:\\Users\\Arsalan\\.nuget\\packages\\",
-        "outputPath": "D:\\uni\\OneDrive - Habib University\\web_dev\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\obj\\",
+        "projectPath": "D:\\Users\\HP\\Documents\\GitHub\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\Khidmat_UI.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "D:\\Users\\HP\\Documents\\GitHub\\Exam_Generator\\App\\Khidmat_UI\\Khidmat_UI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Arsalan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
