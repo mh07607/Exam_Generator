@@ -40,17 +40,18 @@ BEGIN
 	ORDER BY NEWID()
 END*/
 
-/*
-CREATE PROCEDURE GetRandomQuestions(@numEasy int, 
+
+/*CREATE PROCEDURE GetRandomQuestions(@numEasy int, 
 @numMedium int, 
 @numHard int, 
-@type nvarchar(max))
+@type nvarchar(max),
+@topicId int)
 AS
 BEGIN
 	SELECT * FROM (
 	SELECT TOP (@numEasy) *
 	FROM Questions
-	WHERE Difficulty = 1 and [Type] = @type
+	WHERE Difficulty = 1 and [Type] = @type and TopicID = @topicId
 	ORDER BY NEWID()
 	) YEET
 
@@ -59,7 +60,7 @@ BEGIN
 	SELECT * FROM (
 	SELECT TOP (@numMedium) *
 	FROM Questions
-	WHERE Difficulty = 2 and [Type] = @type
+	WHERE Difficulty = 2 and [Type] = @type AND TopicId = @topicId
 	ORDER BY NEWID()
 	) 
 	DEFEAT
@@ -68,24 +69,25 @@ BEGIN
 	SELECT * FROM (
 	SELECT TOP (@numHard) *
 	FROM Questions
-	WHERE Difficulty = 3 and [Type] = @type
+	WHERE Difficulty = 3 and [Type] = @type AND TopicId = @topicId
 	ORDER BY NEWID()
 	) 
 	MEAT
 	
 END
 */
+
 /*
 CREATE PROCEDURE GetRandomMCQs(@numEasy int, 
 @numMedium int, 
 @numHard int, 
-@type nvarchar(max))
+@topicId int)
 AS
 BEGIN
 	SELECT * FROM (
 	SELECT TOP (@numEasy) *
 	FROM MCQs
-	WHERE Difficulty = 1 
+	WHERE Difficulty = 1 AND TopicId = @topicId
 	ORDER BY NEWID()
 	) YEET
 
@@ -94,7 +96,7 @@ BEGIN
 	SELECT * FROM (
 	SELECT TOP (@numMedium) *
 	FROM MCQs
-	WHERE Difficulty = 2
+	WHERE Difficulty = 2 AND TopicId = @topicId
 	ORDER BY NEWID()
 	) 
 	DEFEAT
@@ -103,7 +105,7 @@ BEGIN
 	SELECT * FROM (
 	SELECT TOP (@numHard) *
 	FROM MCQs
-	WHERE Difficulty = 3
+	WHERE Difficulty = 3 AND TopicId = @topicId
 	ORDER BY NEWID()
 	) 
 	MEAT
