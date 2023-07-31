@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            label6 = new Label();
-            comboBox1 = new ComboBox();
             groupBox4 = new GroupBox();
             label15 = new Label();
             label16 = new Label();
@@ -64,24 +62,6 @@
             label1.TabIndex = 0;
             label1.Text = "Generate new exam";
             label1.Click += label1_Click;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(288, 33);
-            label6.Name = "label6";
-            label6.Size = new Size(49, 15);
-            label6.TabIndex = 3;
-            label6.Text = "Subject:";
-            label6.Click += label2_Click_1;
-            // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(343, 30);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 23);
-            comboBox1.TabIndex = 4;
             // 
             // groupBox4
             // 
@@ -148,7 +128,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(695, 29);
+            button1.Location = new Point(683, 32);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 2;
@@ -292,9 +272,7 @@
             Controls.Add(button2);
             Controls.Add(button3);
             Controls.Add(button5);
-            Controls.Add(comboBox1);
             Controls.Add(button1);
-            Controls.Add(label6);
             Controls.Add(groupBox5);
             Controls.Add(groupBox6);
             Controls.Add(groupBox4);
@@ -315,8 +293,6 @@
         #endregion
 
         private Label label1;
-        private Label label6;
-        private ComboBox comboBox1;
         private GroupBox groupBox4;
         private Label label16;
         private Label label17;

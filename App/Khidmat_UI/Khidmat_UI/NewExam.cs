@@ -17,6 +17,7 @@ namespace Khidmat_UI
 {
     public partial class NewExam : Form
     {
+        const string connectionString = @"Data Source=DESKTOP-PEGIUMG; Initial Catalog = khidmat_test1; Integrated Security = False; user id=Admin;password=Blaze30083;";
         //Arsalan laptopdb: DESKTOP-PEGIUMG\YEET
         //Arsalan pcdb: DESKTOP-6N9R52E\SQLEXPRESS
         // connecting laptop db to pc app: const string connectionString = @"Data Source=DESKTOP-PEGIUMG; Initial Catalog = khidmat_test1; Integrated Security = False; user id=Admin;password=Blaze30083;";
@@ -25,19 +26,21 @@ namespace Khidmat_UI
         List<(int, TextBox, TextBox, TextBox)> ShortQuestions = new List<(int, TextBox, TextBox, TextBox)>();
         List<(int, TextBox, TextBox, TextBox)> LongQuestions = new List<(int, TextBox, TextBox, TextBox)>();
         List<(int, TextBox, TextBox, TextBox)> MCQs = new List<(int, TextBox, TextBox, TextBox)>();
-        const string connectionString = @"Data Source=DESKTOP-PEGIUMG; Initial Catalog = khidmat_test1; Integrated Security = False; user id=Admin;password=Blaze30083;";
+        int subjectId;
+
+        
         SqlConnection connection = new SqlConnection(connectionString);
         SqlCommand command = new SqlCommand();
 
-        public NewExam()
+        public NewExam(int subjectId)
         {
             InitializeComponent();
-            comboBox1.DataSource = new List<string>();
+            this.subjectId = subjectId;
         }
 
         private int dynamicallyGenerateTextboxes(GroupBox groupBox, List<(int, TextBox, TextBox, TextBox)> questions)
         {
-            List<(int, string)> topicList = GetTopics();
+            List<(int, string)> topicList = GetTopics(subjectId);
             int i;
             for (i = 0; i < topicList.Count; i++)
             {
@@ -71,31 +74,9 @@ namespace Khidmat_UI
             return i;
         }
 
-        private List<string> getSubjects()
-        {
-            List<string> subjectList = new List<string>();
-
-            connection.Open();
-            string query = "select SubjectName from Subject";
-            command = new SqlCommand(query, connection);
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                string subjectName = reader["SubjectName"].ToString();
-                subjectList.Add(subjectName);
-            }
-
-            reader.Close();
-            command.Dispose();
-            connection.Close();
-            return subjectList;
-        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            List<string> subjectList = getSubjects();
-            comboBox1.DataSource = subjectList.ToArray();
-
             int offset = dynamicallyGenerateTextboxes(groupBox4, MCQs);
             groupBox5.Location = new System.Drawing.Point(groupBox5.Location.X, (offset) * 30 + groupBox5.Location.Y);
             button2.Location = new System.Drawing.Point(button2.Location.X, (offset) * 30 + button2.Location.Y);
@@ -213,11 +194,11 @@ namespace Khidmat_UI
 
 
 
-        private List<(int, string)> GetTopics()
+        private List<(int, string)> GetTopics(int subjectId)
         {
             List<(int, string)> topicList = new List<(int, string)>();
             connection.Open();
-            string query = "select * from Topic";
+            string query = "select * from Topic where SubjectId = " + subjectId;
             command = new SqlCommand(query, connection);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
@@ -392,7 +373,7 @@ namespace Khidmat_UI
             texContent = texContent + @" \end{questions}";
             return texContent;
         }
-        
+
 
         private void groupBox4_Enter(object sender, EventArgs e)
         {
