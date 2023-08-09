@@ -12,6 +12,7 @@ using System.Configuration;
 using System.Security.AccessControl;
 using System.Reflection.Metadata;
 using System.Diagnostics;
+using Xceed.Words.NET;
 
 namespace Khidmat_UI
 {
@@ -129,6 +130,15 @@ namespace Khidmat_UI
             string outputPath = Path.Combine(outputDirectory, outputFileName);
             string pdfPath = Path.Combine(outputDirectory, pdfFileName);
 
+            string docxFilePath = @"C:\Users\Arsalan\Downloads\Exam\exam.docx"; // Path for the Word document
+            using (DocX doc = DocX.Create(docxFilePath))
+            {
+                
+                doc.InsertParagraph(texContent);
+
+                doc.Save(); // Save the document
+            }
+
             File.WriteAllText(outputPath, texContent);
 
             // Run xelatex command to compile the .tex file to PDF.
@@ -170,24 +180,26 @@ namespace Khidmat_UI
             string texContent = @"\documentclass{exam}
 \usepackage{polyglossia}
 \usepackage{fontspec}
+\usepackage{titlesec}
 \usepackage{bidi}
-
 \setmainlanguage{english}
 \setotherlanguage{arabic}
 \newfontfamily\arabicfont[Script=Arabic]{Amiri}
 
+% Redefine section headings to use Arabic font
 \makeatletter
 \renewcommand{\@seccntformat}[1]{\protect\RTL\protect\textbf{\csname the#1\endcsname\quad}}
 \makeatother
 
+\titleformat*{\section}{\Large\bfseries\arabicfont}
+\titleformat*{\subsection}{\large\bfseries\arabicfont}
+
+
 \begin{document}
-
-
 \begin{RTL} ";
-
+            texContent = texContent + GenerateMCQTex();
             texContent = texContent + GenerateShortTex();
             texContent = texContent + GenerateLongTex();
-            texContent = texContent + GenerateMCQTex();
             texContent = texContent + @" \end{RTL}
 \end{document}";
             return texContent;
@@ -235,10 +247,14 @@ namespace Khidmat_UI
 
         private string GenerateMCQTex()
         {
+            if(MCQs.Count == 0)
+            {
+                return "";
+            }
             string texContent = @" \section{ایم سی کیو}
     \begin{questions} ";
             List<int> MCQIDs = new List<int>();
-            for (int i = 0; i < ShortQuestions.Count; i++)
+            for (int i = 0; i < MCQs.Count; i++)
             {
                 string topic = MCQs[i].Item1.ToString();
                 string numEasy = MCQs[i].Item2.Text;
@@ -269,7 +285,7 @@ namespace Khidmat_UI
                     string value5 = reader.GetString(6); //Option C
                     string value6 = reader.GetString(7); //Option D
 
-                    texContent = texContent + @"\begin{Arabic} \question " + value2 + @" \begin{choices} \choice A. " + value3 + @" \choice B. " + value4 + @" \choice C. " + value5 + @" \choice D. " + value6 + @" \end{choices} \end{Arabic} ";
+                    texContent = texContent + @"\begin{Arabic} \question " + value2 + @" \begin{choices} \choice " + value3 + @" \choice " + value4 + @" \choice " + value5 + @" \choice  " + value6 + @" \end{choices} \end{Arabic} ";
                     MCQIDs.Add(value1);
                 }
                 reader.Close();
@@ -289,6 +305,10 @@ namespace Khidmat_UI
 
         private string GenerateShortTex()
         {
+            if(ShortQuestions.Count == 0)
+            {
+                return "";
+            }
             string texContent = @" \section{مختصر سوالات}
     \begin{questions} ";
             List<int> shortQuestionIDs = new List<int>();
@@ -332,11 +352,15 @@ namespace Khidmat_UI
 
 
         private string GenerateLongTex()
-        {
+        {   
+            if(LongQuestions.Count == 0)
+            {
+                return "";
+            }
             string texContent = @" \section{طویل سوالات}
 \begin{questions} ";
             List<int> longQuestionIDs = new List<int>();
-            for (int i = 0; i < ShortQuestions.Count; i++)
+            for (int i = 0; i < LongQuestions.Count; i++)
             {
                 string topic = LongQuestions[i].Item1.ToString();
                 string numEasy = LongQuestions[i].Item2.Text;
