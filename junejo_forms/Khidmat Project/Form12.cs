@@ -63,9 +63,49 @@ namespace Khidmat_Project
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Form11 form11 = new Form11();
+            string topicName = textBox1.Text.ToString();
+            string subjectName = textBox1.Text.ToString();
+            if (topicName != null && subjectName != null)
+            {
+                string subjectId = subjectName_Id[subjectName].ToString();
+                connection.Open();
+                string query = "exex InsertTopic @SubjectId, @TopicName";
+                command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@SubjectId", subjectId);
+                command.Parameters.AddWithValue("@TopicName", topicName);
+                command.ExecuteNonQuery();
+                connection.Close();
+
+                //You may want to comment out this part while debugging
+                //Adding the books, if theres no books added in the listBox this loop doesn't excute
+                //Since you said "make it so that the book entry is optional"
+                foreach (var item in listBox1.Items)
+                {
+                    string BookName = item.ToString();
+                    string BookId = BookName_Id[BookName].ToString();
+                    connection.Open();
+                    string query2 = "exex InsertBookTopic @BookId, @TopicId";
+                    command = new SqlCommand(query2, connection);
+                    command.Parameters.AddWithValue("@BookId", BookId);
+                    //How do we get TopicId when the topic was freshly created?
+                    //command.Parameters.AddWithValue("@TopicId", TopicId) 
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+
+            }
+            if (topicName == null)
+            {
+                MessageBox.Show("Please Insert Topic Name");
+            }
+            if (subjectName == null)
+            {
+                MessageBox.Show("Please Select a Subject");
+            }
+
+            /*Form11 form11 = new Form11();
             form11.Show();
-            this.Hide();
+            this.Hide();*/
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -113,7 +153,8 @@ namespace Khidmat_Project
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            string bookSelected = listBox1.Text.ToString();
+            listBox1.Items.Remove(bookSelected);
         }
     }
 }
