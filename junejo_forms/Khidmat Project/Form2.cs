@@ -45,8 +45,8 @@ namespace Khidmat_Project
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Form15 form15 = new Form15();
-            form15.Show();
+            SelectSubject selectSubject = new SelectSubject();
+            selectSubject.Show();
             this.Hide();
         }
     }
