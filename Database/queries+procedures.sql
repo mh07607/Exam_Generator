@@ -130,7 +130,7 @@ BEGIN
 END
 
 
-/*CREATE PROCEDURE InsertMCQ (@Content nvarchar(max), @Difficulty int, @TopicID int, @OptionA nvarchar(max), @OptionB nvarchar(max), @OptionC nvarchar(max), @OptionD nvarchar(max), @Answer varchar)
+/*CREATE PROCEDURE InsertMCQ ()
 AS
 BEGIN
 	insert into MCQs (Content, Difficulty, TopicId, OptionA, OptionB, OptionC, OptionD, Answer) values (@Content, @Difficulty, @TopicID, @OptionA, @OptionB, @OptionC, @OptionD, @Answer)
@@ -184,4 +184,32 @@ END
 'short'
 */
 
-select * from MCQs
+
+
+---------------------------------UPDATES-----------------------------------------------------------------------------------
+
+/*CREATE PROCEDURE UpdateQuestion (@questionId int, @content nvarchar(max), @difficulty int, @topicId int, @type text)
+AS
+BEGIN
+	UPDATE Questions
+	SET TopicID = @topicId, Content = @content, Difficulty = @difficulty, Type=@type
+	WHERE QuestionID = @questionId
+END*/
+
+
+
+/*CREATE PROCEDURE UpdateMCQ (@MCQId int,
+@Content nvarchar(max), 
+@Difficulty int, 
+@TopicID int, 
+@OptionA nvarchar(max), 
+@OptionB nvarchar(max), 
+@OptionC nvarchar(max), 
+@OptionD nvarchar(max), 
+@Answer varchar)
+AS 
+BEGIN
+	UPDATE MCQs
+	SET Content = @Content, Difficulty = @Difficulty, TopicId = @TopicID, OptionA=@OptionA, OptionB=@OptionB, OptionC=@OptionC, OptionD=@OptionD, Answer=@Answer
+	WHERE MCQID = @MCQId
+END*/
