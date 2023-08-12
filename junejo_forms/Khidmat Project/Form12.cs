@@ -92,7 +92,7 @@ namespace Khidmat_Project
                     command.ExecuteNonQuery();
                     connection.Close();
                 }
-
+                MessageBox.Show("Topic Added Sucessfully");
             }
             if (topicName == null)
             {
