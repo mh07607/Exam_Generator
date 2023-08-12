@@ -1,3 +1,6 @@
 App/Khidmat_UI/.vs
 App/Khidmat_UI/Khidmat_UI/bin
 App/Khidmat_UI/Khidmat_UI/obj
+bin
+obj
+.vs
