@@ -61,7 +61,7 @@ namespace Khidmat_Project
             this.Hide();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button5_Click(object sender, EventArgs e) //Add Button
         {
             string topicName = textBox1.Text.ToString();
             string subjectName = textBox1.Text.ToString();
@@ -134,7 +134,7 @@ namespace Khidmat_Project
             comboBox2.DataSource = BookList;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e) //Plus Button
         {
             string bookSelected = comboBox2.Text.ToString();
             if (listBox1.Items.Contains(bookSelected) == false && bookSelected != null)
@@ -151,10 +151,17 @@ namespace Khidmat_Project
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) //Minus Button
         {
             string bookSelected = listBox1.Text.ToString();
-            listBox1.Items.Remove(bookSelected);
+            if(bookSelected == null)
+            {
+                MessageBox.Show("Please select a book to remove.");
+            }
+            else
+            {
+                listBox1.Items.Remove(bookSelected);
+            }
         }
     }
 }

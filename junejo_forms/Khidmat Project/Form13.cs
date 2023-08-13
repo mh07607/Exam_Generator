@@ -12,9 +12,18 @@ namespace Khidmat_Project
 {
     public partial class Form13 : Form
     {
-        public Form13()
+        int topicId;
+
+        public Form13(int topicId)
         {
             InitializeComponent();
+            this.topicId = topicId;
+        }
+
+        public void Form13_Load(object sender, EventArgs e)
+        {
+            //Populating all the feilds based on the topicId
+
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -24,7 +33,7 @@ namespace Khidmat_Project
             this.Hide();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button5_Click(object sender, EventArgs e) //Edit Button
         {
             Form11 form11 = new Form11();
             form11.Show();

@@ -56,10 +56,10 @@ namespace Khidmat_Project
             return subjectList;
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button5_Click(object sender, EventArgs e) //Add Button
         {
-            Form13 form13 = new Form13();
-            form13.Show();
+            Form12 form13 = new Form12();
+            form12.Show();
             this.Hide();
         }
 
@@ -70,20 +70,31 @@ namespace Khidmat_Project
             this.Hide();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e) //Edit Button
         {
-            Form13 form13 = new Form13();
-            form13.Show();
-            this.Hide();
+            if (dataGridView1.SelectedCells.Count == 0)
+            {
+                MessageBox.Show("Please select a topic first.");
+            }
+            else
+            {
+                DataGridViewCell selectedCell = dataGridView1.SelectedCells[0];
+                int selectedRowIndex = selectedCell.RowIndex;
+                int topicId = Convert.ToInt32(dataGridView1.Rows[selectedRowIndex].Cells[0].Value);
+                Form13 form13 = new Form13(topicId);
+                form13.Show();
+                this.Hide();
+            }
         }
 
         private void button3_Click(object sender, EventArgs e) //Search Button
         {
+            //Please Delete this function and its button
             string topicName = textBox1.Text.ToString();
             string query;
             if(topicName == null)
             {
-                query = "SELECT TopicName FROM Topic"; //Showing all topics
+                query = "SELECT TopicId, TopicName FROM Topic"; //Showing all topics
             }
             else
             {
@@ -102,24 +113,42 @@ namespace Khidmat_Project
 
         private void button6_Click(object sender, EventArgs e) //Filter Button
         {
+            //Need Help with the Query here to involve books
             string topicName = textBox1.Text.ToString();
             string subjectName = comboBox1.Text.ToString();
             string bookName = comboBox3.Text.ToString();
+            bool topicFlag = false;
+            bool subjectFlag = false;
 
-
-            string query = "SELECT TopicName FROM Topic WHERE 1=1 ";
+            string query = "SELECT TopicId, TopicName FROM Topic WHERE 1=1 ";
             
             if(topicName != null)
             {
-                query = query + " AND TopicName LIKE %" + "@topicName" + "%";
-                command.Parameters.AddWithValue("@topicName", topicName);
+                query = query + " AND TopicName LIKE %" + "@TopicName" + "%";
+                topicFlag = true;
             }
             if(subjectName != null)
             {
                 query = query + " AND SubjectId = @SubjectID ";
-                command.Parameters.AddWithValue("@SubjectID", subjectName_Id[subjectName]);
+                subjectFlag = true;
             }
 
+            connection.Open();
+            command = new SqlCommand(query, connection);
+            if(topicFlag == true)
+            {
+                command.Parameters.AddWithValue("@TopicName", topicName);
+            }
+            if(subjectFlag == true)
+            {
+                command.Parameters.AddWithValue("@SubjectId", subjectName_Id[subjectName]);
+            }
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+            command.Dispose();
+            connection.Close();
+            dataGridView1.DataSource = dataTable;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) //Filling the book comboBox
@@ -146,6 +175,52 @@ namespace Khidmat_Project
             command.Dispose();
             connection.Close();
             comboBox3.DataSource = BookList;
+        }
+
+        private void button1_Click(object sender, EventArgs e) //Delete Button
+        {
+            if (dataGridView1.SelectedCells.Count == 0)
+            {
+                MessageBox.Show("Please select a topic first.");
+            }
+            else
+            {
+                DataGridViewCell selectedCell = dataGridView1.SelectedCells[0];
+                int selectedRowIndex = selectedCell.RowIndex;
+                int topicId = Convert.ToInt32(dataGridView1.Rows[selectedRowIndex].Cells[0].Value);
+
+                //Deleting all assosicated Questions with the Topic
+                connection.Open();
+                string query = "DELETE FROM Questions WHERE TopicId = @TopicId";
+                command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@TopicId", topicId);
+                command.ExecuteNonQuery();
+                connection.Close();
+
+                //Deleting all assosicated MCQs with the Topic
+                connection.Open();
+                query = "DELETE FROM MCQs WHERE TopicId = @TopicId";
+                command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@TopicId", topicId);
+                command.ExecuteNonQuery();
+                connection.Close();
+
+                //Deleting all assosicated Book_Topic entries with Topic
+                connection.Open();
+                query = "DELETE FROM Book_Topic WHERE TopicId = @TopicId";
+                command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@TopicId", topicId);
+                command.ExecuteNonQuery();
+                connection.Close();
+
+                //Deleting the topic
+                connection.Open();
+                query = "DELETE FROM Topic WHERE TopicId = @TopicId";
+                command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@TopicId", topicId);
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
         }
     }
 }
