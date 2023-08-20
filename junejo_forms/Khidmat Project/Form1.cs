@@ -54,8 +54,13 @@ namespace Khidmat_Project
                 MessageBox.Show("Please enter your password!");
                 return;
             }
-
-            connection.Open();
+            try
+            {
+                connection.Open();
+            } catch {
+                MessageBox.Show("There was an error establishing connection to the server");
+                return;
+            }
             string query = "SELECT * FROM Admin WHERE Email = @email AND Password = @password";
             command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@email", textBox2.Text);

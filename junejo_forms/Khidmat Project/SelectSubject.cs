@@ -59,6 +59,7 @@ namespace Khidmat_Project
             int subjectId = subjectName_Id[comboBox1.Text];
             NewExam newExam = new NewExam(subjectId);
             newExam.Show();
+            this.Hide();
         }
     }
 }
