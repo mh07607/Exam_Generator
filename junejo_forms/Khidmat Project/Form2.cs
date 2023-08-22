@@ -47,7 +47,6 @@ namespace Khidmat_Project
         {
             SelectSubject selectSubject = new SelectSubject();
             selectSubject.Show();
-            this.Hide();
         }
     }
 }

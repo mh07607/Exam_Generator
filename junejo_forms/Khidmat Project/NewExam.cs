@@ -15,6 +15,8 @@ using System.Diagnostics;
 using Xceed.Words.NET;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using System.IO;
+using Xceed.Document.NET;
+using System.Xml.Linq;
 
 namespace Khidmat_Project
 {
@@ -49,10 +51,10 @@ namespace Khidmat_Project
                 TextBox numMediumShort = new TextBox();
                 TextBox numHardShort = new TextBox();
 
-                topicName.Location = new System.Drawing.Point(60, 55 + (i * 30));
-                numEasyShort.Location = new System.Drawing.Point(320, 50 + (i * 30));
-                numMediumShort.Location = new System.Drawing.Point(420, 50 + (i * 30));
-                numHardShort.Location = new System.Drawing.Point(520, 50 + (i * 30));
+                topicName.Location = new System.Drawing.Point(65, 55 + (i * 30));
+                numEasyShort.Location = new System.Drawing.Point(264, 50 + (i * 30));
+                numMediumShort.Location = new System.Drawing.Point(350, 50 + (i * 30));
+                numHardShort.Location = new System.Drawing.Point(436, 50 + (i * 30));
 
                 topicName.AutoSize = true;
 
@@ -116,57 +118,156 @@ namespace Khidmat_Project
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //pc
+            string docxFilePath = @"C:\Users\pc\Downloads\exams\exam-template.docx"; // Path for the Word document
 
-            string texContent = GenerateTexContent();
-            string outputDirectory = @"C:\Users\Arsalan\Downloads\Exam";
-            string outputFileName = "exam.tex";
-            string pdfFileName = "exam.pdf";
-            string outputPath = Path.Combine(outputDirectory, outputFileName);
-            string pdfPath = Path.Combine(outputDirectory, pdfFileName);
+            //laptop
+            //string docxFilePath = @"C:\Users\Arsalan\Downloads\exams\exam-template.docx"; // Path for the Word document
 
-            string docxFilePath = @"C:\Users\Arsalan\Downloads\Exam\exam.docx"; // Path for the Word document
-            using (DocX doc = DocX.Create(docxFilePath))
+            using (DocX doc = DocX.Load(docxFilePath))
             {
+               InsertMCQInDocx(doc);
 
-                doc.InsertParagraph(texContent);
-
-                doc.Save(); // Save the document
+               using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+               {
+                    saveFileDialog.Filter = "Word Document|*.docx";
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        var savePath = saveFileDialog.FileName;
+                        doc.SaveAs(savePath);
+                    }
+                    else
+                    {
+                        Console.WriteLine("User canceled the save operation.");
+                    }
+               }
             }
 
-            File.WriteAllText(outputPath, texContent);
-
-            // Run xelatex command to compile the .tex file to PDF.
-            ProcessStartInfo processInfo = new ProcessStartInfo
             {
-                FileName = "xelatex",
-                Arguments = $"-output-directory={outputDirectory} {outputPath}",
-                UseShellExecute = false,
-                RedirectStandardError = true,
-                CreateNoWindow = false,
-                WorkingDirectory = outputDirectory  // Set the working directory to the .tex file location.
-            };
+                //string texContent = GenerateTexContent();
+                //string outputDirectory = @"C:\Users\Arsalan\Downloads\Exam";
+                //string outputFileName = "exam.tex";
+                //string pdfFileName = "exam.pdf";
+                //string outputPath = Path.Combine(outputDirectory, outputFileName);
+                //string pdfPath = Path.Combine(outputDirectory, pdfFileName);
 
-            Process process = new Process
-            {
-                StartInfo = processInfo
-            };
+                /*File.WriteAllText(outputPath, texContent);
 
-            process.Start();
-            process.WaitForExit();
+                // Run xelatex command to compile the .tex file to PDF.
+                ProcessStartInfo processInfo = new ProcessStartInfo
+                {
+                    FileName = "xelatex",
+                    Arguments = $"-output-directory={outputDirectory} {outputPath}",
+                    UseShellExecute = false,
+                    RedirectStandardError = true,
+                    CreateNoWindow = false,
+                    WorkingDirectory = outputDirectory  // Set the working directory to the .tex file location.
+                };
 
-            // Check if the PDF was successfully generated.
-            if (File.Exists(pdfPath))
-            {
-                // Optionally, you can open the generated PDF file using the default PDF viewer.
-                //Process.Start(pdfPath);
+                Process process = new Process
+                {
+                    StartInfo = processInfo
+                };
+
+                process.Start();
+                process.WaitForExit();
+
+                // Check if the PDF was successfully generated.
+                if (File.Exists(pdfPath))
+                {
+                    // Optionally, you can open the generated PDF file using the default PDF viewer.
+                    //Process.Start(pdfPath);
+                }
+                else
+                {
+                    string errorOutput = process.StandardError.ReadToEnd();
+                    // Handle the error if the PDF was not generated.
+                    // You can display the error message to the user or log it for further investigation.
+                }*/
             }
-            else
+        }
+
+        private void InsertMCQInDocx(DocX doc)
+        {
+            var placeholder = "{mcqs}";
+            var paragraph = doc.Paragraphs.FirstOrDefault(p => p.Text.Contains(placeholder));
+
+            if(paragraph == null) 
             {
-                string errorOutput = process.StandardError.ReadToEnd();
-                // Handle the error if the PDF was not generated.
-                // You can display the error message to the user or log it for further investigation.
+                MessageBox.Show("Your template is faulty, there is no '{mcqs}' placeholder to place the MCQs.");
+                return;
             }
 
+            if (MCQs.Count == 0)
+            {
+                return;
+            }
+
+            var mcqList = doc.AddList("MCQs", 0, ListItemType.Numbered, 1);
+            
+
+            List<int> MCQIDs = new List<int>(); //should use this list to push these ids in past paper_mcqs
+
+            for (int i = 0; i < MCQs.Count; i++)
+            {
+                string topic = MCQs[i].Item1.ToString();
+                string numEasy = MCQs[i].Item2.Text;
+                string numMedium = MCQs[i].Item3.Text;
+                string numHard = MCQs[i].Item4.Text;
+
+                if (string.IsNullOrEmpty(numEasy))
+                {
+                    numEasy = "0";
+                }
+                if (string.IsNullOrEmpty(numMedium))
+                {
+                    numMedium = "0";
+                }
+                if (string.IsNullOrEmpty(numHard))
+                {
+                    numHard = "0";
+                }
+
+                connection.Open();
+                string query = "EXEC GetRandomMCQs " + numEasy + "," + numMedium + "," + numHard + "," + topic;
+                command = new SqlCommand(query, connection);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int value1 = reader.GetInt32(0); //MCQID
+                    string value2 = reader.GetString(1); //Content
+                    string value3 = reader.GetString(4); //Option A
+                    string value4 = reader.GetString(5); //Option B
+                    string value5 = reader.GetString(6); //Option C
+                    string value6 = reader.GetString(7); //Option D
+
+                    doc.AddListItem(mcqList, value2);
+                    doc.AddListItem(mcqList, value3, 1);
+                    doc.AddListItem(mcqList, value4, 1);
+                    doc.AddListItem(mcqList, value5, 1);
+                    doc.AddListItem(mcqList, value6, 1);
+
+                }
+                reader.Close();
+                command.Dispose();
+                connection.Close();
+            }
+
+            var index = doc.Paragraphs.IndexOf(paragraph);
+            doc.InsertList(mcqList);
+            //doc.Paragraphs.Remove();
+        }
+
+        private string GenerateShortDocx()
+        {
+            string docxContent = "";
+            return docxContent;
+        }
+
+        private string GenerateLongDocx()
+        {
+            string docxContent = "";
+            return docxContent;
         }
 
         private string GenerateTexContent()
@@ -200,7 +301,6 @@ namespace Khidmat_Project
         }
 
 
-
         private List<(int, string)> GetTopics(int subjectId)
         {
             List<(int, string)> topicList = new List<(int, string)>();
@@ -221,23 +321,6 @@ namespace Khidmat_Project
             return topicList;
         }
 
-        /*
-        private List<(int, string, string, string, string, string, string)> GetMCQs()
-        {
-            List<(int, string, string, string, string, string, string)> mcQs = new List<(int, string, string, string, string, string, string)>();
-
-            List<int> topicIds = GetTopicIds();
-            connection.Open();
-
-            for (int i = 0; i < topicIds.Count; i++)
-            {
-                string query = "select ";
-            }
-
-            connection.Close();
-
-            return mcQs;
-        }*/
 
         private string GenerateMCQTex()
         {
