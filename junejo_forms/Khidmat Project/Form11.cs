@@ -58,7 +58,7 @@ namespace Khidmat_Project
 
         private void button5_Click(object sender, EventArgs e) //Add Button
         {
-            Form12 form13 = new Form12();
+            Form12 form12 = new Form12();
             form12.Show();
             this.Hide();
         }
