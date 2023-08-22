@@ -13,14 +13,8 @@ namespace Khidmat_Project
 {
     public partial class Form1 : Form
     {
-        //Arsalan laptopdb: DESKTOP-PEGIUMG\YEET
-        //const string connectionString = @"Data Source=DESKTOP-PEGIUMG\YEET; Initial Catalog = khidmat_test1; Integrated Security = True;";
-
-        // connecting laptop db to pc app: 
-        const string connectionString = @"Data Source=DESKTOP-PEGIUMG; Initial Catalog = khidmat_test1; Integrated Security = False; user id=Admin;password=Blaze30083;";
-        SqlConnection connection = new SqlConnection(connectionString);
+        SqlConnection connection = new SqlConnection(connectDb.connectionString);
         SqlCommand command = new SqlCommand();
-
 
         public Form1()
         {

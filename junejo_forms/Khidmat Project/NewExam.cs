@@ -20,20 +20,13 @@ namespace Khidmat_Project
 {
     public partial class NewExam : Form
     {
-        //Arsalan laptopdb: DESKTOP-PEGIUMG\YEET
-        //const string connectionString = @"Data Source=DESKTOP-PEGIUMG\YEET; Initial Catalog = khidmat_test1; Integrated Security = True;";
-
-        // connecting laptop db to pc app: 
-        const string connectionString = @"Data Source=DESKTOP-PEGIUMG; Initial Catalog = khidmat_test1; Integrated Security = False; user id=Admin;password=Blaze30083;";
-
-
         List<(int, TextBox, TextBox, TextBox)> ShortQuestions = new List<(int, TextBox, TextBox, TextBox)>();
         List<(int, TextBox, TextBox, TextBox)> LongQuestions = new List<(int, TextBox, TextBox, TextBox)>();
         List<(int, TextBox, TextBox, TextBox)> MCQs = new List<(int, TextBox, TextBox, TextBox)>();
         int subjectId;
 
 
-        SqlConnection connection = new SqlConnection(connectionString);
+        SqlConnection connection = new SqlConnection(connectDb.connectionString);
         SqlCommand command = new SqlCommand();
 
         public NewExam(int subjectId)
