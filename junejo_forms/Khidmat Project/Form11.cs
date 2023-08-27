@@ -80,7 +80,9 @@ namespace Khidmat_Project
                 DataGridViewCell selectedCell = dataGridView1.SelectedCells[0];
                 int selectedRowIndex = selectedCell.RowIndex;
                 int topicId = Convert.ToInt32(dataGridView1.Rows[selectedRowIndex].Cells[0].Value);
-                Form13 form13 = new Form13(topicId);
+                string topicName = Convert.ToString(dataGridView1.Rows[selectedRowIndex].Cells[1].Value);
+                int subjectId = Convert.ToInt32(dataGridView1.Rows[selectedRowIndex].Cells[2].Value);
+                Form13 form13 = new Form13(topicId, topicName, subjectId);
                 form13.Show();
                 this.Hide();
             }
@@ -93,7 +95,7 @@ namespace Khidmat_Project
             string query;
             if(topicName == "")
             {
-                query = "SELECT TopicId, TopicName FROM Topic"; //Showing all topics
+                query = "SELECT TopicId, TopicName, SubjectId FROM Topic"; //Showing all topics
             }
             else
             {
@@ -108,6 +110,7 @@ namespace Khidmat_Project
             command.Dispose(); 
             connection.Close();
             dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns[2].Visible = false;
         }
 
         private void button6_Click(object sender, EventArgs e) //Filter Button
@@ -201,9 +204,25 @@ namespace Khidmat_Project
                 int selectedRowIndex = selectedCell.RowIndex;
                 int topicId = Convert.ToInt32(dataGridView1.Rows[selectedRowIndex].Cells[0].Value);
 
+                //Deleting from Past Paper Questions
+                connection.Open();
+                string query = "DELETE FROM Paper_Question WHERE QuestionID IN (SELECT QuestionID FROM Questions WHERE TopicID = @TopicID)";
+                command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@TopicId", topicId);
+                command.ExecuteNonQuery();
+                connection.Close();
+
+                //Deleting from Past Paper MCQs
+                connection.Open();
+                query = "DELETE FROM Paper_MCQ WHERE MCQID IN (SELECT MCQID FROM MCQs WHERE TopicID = @TopicID)";
+                command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@TopicId", topicId);
+                command.ExecuteNonQuery();
+                connection.Close();
+
                 //Deleting all assosicated Questions with the Topic
                 connection.Open();
-                string query = "DELETE FROM Questions WHERE TopicId = @TopicId";
+                query = "DELETE FROM Questions WHERE TopicId = @TopicId";
                 command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@TopicId", topicId);
                 command.ExecuteNonQuery();
@@ -232,6 +251,9 @@ namespace Khidmat_Project
                 command.Parameters.AddWithValue("@TopicId", topicId);
                 command.ExecuteNonQuery();
                 connection.Close();
+
+                this.button6_Click(sender, e);
+                MessageBox.Show("Topic and all assosicated data deleted sucessfully");
             }
         }
     }

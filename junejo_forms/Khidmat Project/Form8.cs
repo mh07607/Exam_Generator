@@ -114,6 +114,7 @@ namespace Khidmat_Project
                 command.ExecuteNonQuery();
                 connection.Close();
                 MessageBox.Show("Book Sucessfuly Deleted");
+                this.button3_Click(sender, e);
             }
         }
 
