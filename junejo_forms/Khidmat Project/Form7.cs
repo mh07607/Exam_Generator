@@ -168,5 +168,10 @@ namespace Khidmat_Project
                 return;
             }
         }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

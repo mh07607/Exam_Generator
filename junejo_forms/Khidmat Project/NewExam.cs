@@ -17,6 +17,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using System.IO;
 using Xceed.Document.NET;
 using System.Xml.Linq;
+using DocumentFormat.OpenXml.Office.Word;
 
 namespace Khidmat_Project
 {
@@ -126,22 +127,47 @@ namespace Khidmat_Project
 
             using (DocX doc = DocX.Load(docxFilePath))
             {
-               InsertMCQInDocx(doc);
+               List<int> mcqIds = InsertMCQInDocx(doc);
+               List<int> shortIds = InsertShortInDocx(doc);
+               List<int> longIds = InsertLongInDocx(doc);
 
-               using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                //List<int> questionIds = shortIds.Concat(longIds).ToList();
+               shortIds.AddRange(longIds);
+
+               Console.WriteLine("mcqids", mcqIds);
+               Console.WriteLine("questionids", shortIds);
+
+                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
                {
                     saveFileDialog.Filter = "Word Document|*.docx";
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
                         var savePath = saveFileDialog.FileName;
-                        doc.SaveAs(savePath);
+                        try {
+                            doc.SaveAs(savePath);
+                            Process.Start(savePath);
+                        }
+                        catch (Exception error)
+                        {
+                            MessageBox.Show("An error occurred while saving the document: " + error.Message);
+                        }
+                        
                     }
                     else
                     {
                         Console.WriteLine("User canceled the save operation.");
                     }
-               }
+
+                    DialogResult result = MessageBox.Show("Success", "Paper generated successfully. Do you want to store it in the database?", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
+                    {
+                        NewPaper newPaper = new NewPaper(shortIds, mcqIds, subjectId);
+                        newPaper.Show();
+                    }
+                }
             }
+
+            
         }
 
         private void GenerateLatexPdf()
@@ -189,7 +215,7 @@ namespace Khidmat_Project
 
         }
 
-        private void InsertMCQInDocx(DocX doc)
+        private List<int> InsertMCQInDocx(DocX doc)
         {
             var placeholder = "{mcqs}";
             var paragraph = doc.Paragraphs.FirstOrDefault(p => p.Text.Contains(placeholder));
@@ -197,15 +223,13 @@ namespace Khidmat_Project
             if(paragraph == null) 
             {
                 MessageBox.Show("Your template is faulty, there is no '{mcqs}' placeholder to place the MCQs.");
-                return;
+                return null;
             }
 
             if (MCQs.Count == 0)
             {
-                return;
+                return null;
             }
-
-            //doc.Paragraphs.Append()
             
 
             List<int> MCQIDs = new List<int>(); //should use this list to push these ids in past paper_mcqs
@@ -250,7 +274,7 @@ namespace Khidmat_Project
                     doc.AddListItem(mcqList, value4, 1);
                     doc.AddListItem(mcqList, value5, 1);
                     doc.AddListItem(mcqList, value6, 1);
-
+                    MCQIDs.Add(value1);
                 }
                 reader.Close();
                 command.Dispose();
@@ -258,32 +282,32 @@ namespace Khidmat_Project
             }
 
             var index = doc.Paragraphs.IndexOf(paragraph);
-            doc.InsertList(index, mcqList);
+            paragraph.InsertListAfterSelf(mcqList);
             //doc.Paragraphs.Remove();
+            return MCQIDs;
         }
 
-        private List<int> GenerateShortDocx(DocX doc)
+        private List<int> InsertShortInDocx(DocX doc)
         {
-            string placeholder = "{short}";
+            string placeholder = "{short}";            
             var paragraph = doc.Paragraphs.FirstOrDefault(p => p.Text.Contains(placeholder));
 
             if (paragraph == null)
             {
-                MessageBox.Show("Your template is faulty, there is no '{mcqs}' placeholder to place the MCQs.");
+                MessageBox.Show("Your template is faulty, there is no '{short}' placeholder to place the MCQs.");
                 return null;
             }
 
-            if (MCQs.Count == 0)
+            if (ShortQuestions.Count == 0)
             {
                 return null;
             }
 
 
             List<int> shortIDs = new List<int>(); //should use this list to push these ids in past paper_mcqs
-            Formatting format = new Formatting();
-            var mcqList = doc.AddList(formatting: new Formatting());
+            var shortList = doc.AddList();
 
-            for (int i = 0; i < MCQs.Count; i++)
+            for (int i = 0; i < ShortQuestions.Count; i++)
             {
                 string topic = ShortQuestions[i].Item1.ToString();
                 string numEasy = ShortQuestions[i].Item2.Text;
@@ -304,41 +328,97 @@ namespace Khidmat_Project
                 }
 
                 connection.Open();
-                string query = "EXEC GetRandomMCQs " + numEasy + "," + numMedium + "," + numHard + "," + topic;
+                string query = "EXEC GetRandomQuestions " + numEasy + "," + numMedium + "," + numHard + ", short, " + topic;
                 command = new SqlCommand(query, connection);
                 SqlDataReader reader = command.ExecuteReader();
+
                 while (reader.Read())
                 {
-                    int value1 = reader.GetInt32(0); //MCQID
-                    string value2 = reader.GetString(1); //Content
-                    string value3 = reader.GetString(4); //Option A
-                    string value4 = reader.GetString(5); //Option B
-                    string value5 = reader.GetString(6); //Option C
-                    string value6 = reader.GetString(7); //Option D
+                    int value1 = reader.GetInt32(0); //shortID
+                    string value2 = reader.GetString(4); //Content
+                    
 
-                    doc.AddListItem(mcqList, value2);
-                    doc.AddListItem(mcqList, value3, 1);
-                    doc.AddListItem(mcqList, value4, 1);
-                    doc.AddListItem(mcqList, value5, 1);
-                    doc.AddListItem(mcqList, value6, 1);
-
+                    doc.AddListItem(shortList, value2);
+                    shortIDs.Add(value1);
                 }
                 reader.Close();
                 command.Dispose();
                 connection.Close();
             }
 
-            var index = doc.Paragraphs.IndexOf(paragraph);
-            doc.InsertList(index, mcqList);
+            paragraph.InsertListAfterSelf(shortList);
+
+            //var index = doc.Paragraphs.IndexOf(paragraph);
+            //doc.InsertList(index, shortList);
             //doc.Paragraphs.Remove();
             return shortIDs;
         }
     
 
-        private string GenerateLongDocx()
+        private List<int> InsertLongInDocx(DocX doc)
         {
-            string docxContent = "";
-            return docxContent;
+            string placeholder = "{long}";
+            var paragraph = doc.Paragraphs.FirstOrDefault(p => p.Text.Contains(placeholder));
+
+            if (paragraph == null)
+            {
+                MessageBox.Show("Your template is faulty, there is no '{long}' placeholder to place the MCQs.");
+                return null;
+            }
+
+            if (LongQuestions.Count == 0)
+            {
+                return null;
+            }
+
+
+            List<int> longIDs = new List<int>(); //should use this list to push these ids in past paper_mcqs
+            var longList = doc.AddList();
+
+            for (int i = 0; i < LongQuestions.Count; i++)
+            {
+                string topic = LongQuestions[i].Item1.ToString();
+                string numEasy = LongQuestions[i].Item2.Text;
+                string numMedium = LongQuestions[i].Item3.Text;
+                string numHard = LongQuestions[i].Item4.Text;
+                    
+                if (string.IsNullOrEmpty(numEasy))
+                {
+                    numEasy = "0";
+                }
+                if (string.IsNullOrEmpty(numMedium))
+                {
+                    numMedium = "0";
+                }
+                if (string.IsNullOrEmpty(numHard))
+                {
+                    numHard = "0";
+                }
+
+                connection.Open();
+                string query = "EXEC GetRandomQuestions " + numEasy + "," + numMedium + "," + numHard + ", long, "+ topic;
+                command = new SqlCommand(query, connection);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int value1 = reader.GetInt32(0); //longID
+                    string value2 = reader.GetString(4); //Content
+
+
+                    doc.AddListItem(longList, value2);
+                    longIDs.Add(value1);
+                }
+                reader.Close();
+                command.Dispose();
+                connection.Close();
+            }
+            paragraph.InsertListAfterSelf(longList);
+
+            //var index = doc.Paragraphs.IndexOf(paragraph);
+            //doc.InsertList(index, longList);
+            //doc.Paragraphs.Remove();
+            return longIDs;
         }
 
         private string GenerateTexContent()
