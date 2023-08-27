@@ -68,13 +68,81 @@ namespace Khidmat_Project
         {
             connection.Open();
 
-            string query = "DELETE FROM Subject WHERE SubjectId = @subjectid";
+            //Deleting from Paper_Question
+            string query = "DELETE FROM Paper_Question WHERE QuestionID IN (SELECT QuestionID FROM Questions WHERE TopicId IN (SELECT TopicID From Topic WHERE SubjectID = @SubjectId))";
             command = new SqlCommand(query, connection);
-
             command.Parameters.AddWithValue("@subjectid", subjectId);
+            command.ExecuteNonQuery();
+            command.Dispose();
+            connection.Close();
 
+            connection.Open();
+
+            //Deleting from Paper_MCQ
+            query = "DELETE FROM Paper_MCQ WHERE MCQID IN (SELECT MCQID FROM MCQs WHERE TopicId IN (SELECT TopicID From Topic WHERE SubjectID = @SubjectId))";
+            command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@subjectid", subjectId);
+            command.ExecuteNonQuery();
+            command.Dispose();
+            connection.Close();
+
+            connection.Open();
+
+            //Deleting from Questions
+            query = "DELETE FROM Questions WHERE TopicId IN (SELECT TopicID FROM Topic WHERE SubjectId = @SubjectId)";
+            command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@subjectid", subjectId);
+            command.ExecuteNonQuery();
+            command.Dispose();
+            connection.Close();
+
+            connection.Open();
+
+            //Deleting from MCQS
+            query = "DELETE FROM MCQs WHERE TopicID IN (SELECT TopicID FROM Topic WHERE SubjectId = @SubjectId)";
+            command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@subjectid", subjectId);
+            command.ExecuteNonQuery();
+            command.Dispose();
+            connection.Close();
+
+            connection.Open();
+
+            //Deleting from Book_Topic
+            query = "DELETE FROM Book_Topic WHERE TopicId IN (SELECT TopicId FROM Topic WHERE SubjectId = @SubjectId";
+            command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@subjectid", subjectId);
+            command.ExecuteNonQuery();
+            command.Dispose();
+            connection.Close();
+
+            connection.Open();
+
+            //Deleting from Book
+            query = "DELETE FROM Book WHERE SubjectId = @SubjectId";
+            command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@subjectid", subjectId);
+            command.ExecuteNonQuery();
+            command.Dispose();
+            connection.Close();
+
+            connection.Open();
+
+            //Deleting from Topic
+            query = "DELETE FROM Topic WHERE SubjectId = @SubjectId";
+            command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@subjectid", subjectId);
+            command.ExecuteNonQuery();
+            command.Dispose();
+            connection.Close();
+
+            connection.Open();
+
+            //Deleting from Subject
+            query = "DELETE FROM Subject WHERE SubjectId = @subjectid";
+            command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@subjectid", subjectId);
             command.ExecuteNonQuery();  
-
             command.Dispose();
             connection.Close();
         }
