@@ -14,14 +14,20 @@ namespace Khidmat_Project
 {
     public partial class Form8 : Form
     {
-        const string connectionString = @"Data Source=DESKTOP-PEGIUMG; Initial Catalog = khidmat_test1; Integrated Security = False; user id=Admin;password=Blaze30083;";
+        const string connectionString = @"Data Source =DESKTOP-PEGIUMG; Inital Catalog = khidmat_test1; Integrated Security = False; user id =Admin;password=Blaze30083";
         SqlConnection connection = new SqlConnection(connectionString);
         SqlCommand command = new SqlCommand();
-
-
         Dictionary<string, int> subjectName_Id = new Dictionary<string, int>();
-        Dictionary<string, int> topicName_Id = new Dictionary<string, int>();
-
+        public Form8()
+        {
+            InitializeComponent();
+        }
+        
+        private void Form8_Load(object sender, EventArgs e)
+        {
+            List<string> subjectList = getSubjects();
+            comboBox1.DataSource = subjectList;
+        }
 
         private List<string> getSubjects()
         {
@@ -46,34 +52,6 @@ namespace Khidmat_Project
             connection.Close();
             return subjectList;
         }
-
-        private List<string> GetTopics(int subjectId)
-        {
-            List<string> topicList = new List<string>();
-            connection.Open();
-            string query = "select * from Topic where SubjectId = @subjectid";
-            command = new SqlCommand(query, connection);
-
-            command.Parameters.AddWithValue("@subjectid", subjectId);
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                int topicId = Convert.ToInt32(reader["TopicId"]);
-                string topicName = reader["TopicName"].ToString();
-                topicName_Id[topicName] = topicId;
-                topicList.Add(topicName);
-            }
-            reader.Close();
-            command.Dispose();
-            connection.Close();
-            return topicList;
-        }
-
-        public Form8()
-        {
-            InitializeComponent();
-        }
-
         private void button4_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -86,11 +64,91 @@ namespace Khidmat_Project
             this.Hide();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e) //Edit Button 
         {
-            Form10 form10 = new Form10();
-            form10.Show();
-            this.Hide();
+            if (dataGridView1.SelectedCells.Count == 0)
+            {
+                MessageBox.Show("Please select a book first.");
+            }
+            else
+            {
+                DataGridViewCell selectedCell = dataGridView1.SelectedCells[0];
+                int selectedRowIndex = selectedCell.RowIndex;
+                int bookId = Convert.ToInt32(dataGridView1.Rows[selectedRowIndex].Cells[0].Value);
+                string bookName = Convert.ToString(dataGridView1.Rows[selectedRowIndex].Cells[1].Value);
+                Form10 form10 = new Form10(bookId, bookName);
+                form10.Show();
+                this.Hide();
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e) //Filter Button
+        {
+            string bookName = textBox1.Text.ToString();
+            string subjectName = comboBox1.Text.ToString();
+            Boolean bookFlag = false;
+            Boolean subjectFlag = false;
+
+            string query = "SELECT BookId, BookName FROM Book WHERE 1=1 ";
+
+            if (bookName != null)
+            {
+                query = query + " AND BookName LIKE %" + "@BookName" + "%";
+                bookFlag = true;
+            }
+            if (subjectName != null)
+            {
+                query = query + " AND SubjectId = @SubjectID ";
+                subjectFlag = true;
+            }
+
+            connection.Open();
+            command = new SqlCommand(query, connection);
+            if (bookFlag == true)
+            {
+                command.Parameters.AddWithValue("@BookName", bookName);
+            }
+            if (subjectFlag == true)
+            {
+                command.Parameters.AddWithValue("@SubjectId", subjectName_Id[subjectName]);
+            }
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+            command.Dispose();
+            connection.Close();
+            dataGridView1.DataSource = dataTable;
+        }
+
+        private void button1_Click(object sender, EventArgs e) //Delete Button
+        {
+            if (dataGridView1.SelectedCells.Count == 0)
+            {
+                MessageBox.Show("Please select a book first.");
+            }
+            else
+            {
+                DataGridViewCell selectedCell = dataGridView1.SelectedCells[0];
+                int selectedRowIndex = selectedCell.RowIndex;
+                int bookId = Convert.ToInt32(dataGridView1.Rows[selectedRowIndex].Cells[0].Value);
+
+                //Deleting Book_Topic
+                connection.Open();
+                string query = "DELETE FROM Book_Topic WHERE BookId = @BookId";
+                command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@TopicId", bookId);
+                command.ExecuteNonQuery();
+                connection.Close();
+
+                //Deleting Book
+                connection.Open();
+                string query2 = "DELETE FROM Book WHERE BookId = @BookId";
+                command = new SqlCommand(query2, connection);
+                command.Parameters.AddWithValue("@BookId", bookId);
+                command.ExecuteNonQuery();
+                connection.Close();
+                MessageBox.Show("Book Sucessfuly Deleted");
+            }
         }
 
         private void Form8_Load(object sender, EventArgs e)
@@ -174,4 +232,5 @@ namespace Khidmat_Project
             connection.Close();
         }
     }
+
 }
