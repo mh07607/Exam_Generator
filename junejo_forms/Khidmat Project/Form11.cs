@@ -80,7 +80,9 @@ namespace Khidmat_Project
                 DataGridViewCell selectedCell = dataGridView1.SelectedCells[0];
                 int selectedRowIndex = selectedCell.RowIndex;
                 int topicId = Convert.ToInt32(dataGridView1.Rows[selectedRowIndex].Cells[0].Value);
-                Form13 form13 = new Form13(topicId);
+                string topicName = Convert.ToString(dataGridView1.Rows[selectedRowIndex].Cells[1].Value);
+                int subjectId = Convert.ToInt32(dataGridView1.Rows[selectedRowIndex].Cells[2].Value);
+                Form13 form13 = new Form13(topicId, topicName, subjectId);
                 form13.Show();
                 this.Hide();
             }
@@ -93,7 +95,7 @@ namespace Khidmat_Project
             string query;
             if(topicName == "")
             {
-                query = "SELECT TopicId, TopicName FROM Topic"; //Showing all topics
+                query = "SELECT TopicId, TopicName, SubjectId FROM Topic"; //Showing all topics
             }
             else
             {
@@ -108,6 +110,7 @@ namespace Khidmat_Project
             command.Dispose(); 
             connection.Close();
             dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns[2].Visible = false;
         }
 
         private void button6_Click(object sender, EventArgs e) //Filter Button

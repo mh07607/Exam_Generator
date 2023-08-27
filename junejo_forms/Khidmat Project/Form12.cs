@@ -103,11 +103,11 @@ namespace Khidmat_Project
                 }
                 MessageBox.Show("Topic Added Sucessfully");
             }
-            if (topicName == null)
+            if (topicName == "")
             {
                 MessageBox.Show("Please Insert Topic Name");
             }
-            if (subjectName == null)
+            if (subjectName == "")
             {
                 MessageBox.Show("Please Select a Subject");
             }
