@@ -322,11 +322,31 @@ namespace Khidmat_Project
 
         private void DeleteQuestion(int questionId) {
             connection.Open();
-            string query = "DELETE FROM Questions WHERE QuestionId = @questionid";
+            string query;
             if (radioButton2.Checked)
             {
+                query = "DELETE FROM Paper_MCQ WHERE MCQId = @questionid";
+                command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@questionid", questionId);
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+
                 query = "DELETE FROM MCQs WHERE MCQId = @questionid";
             }
+            else
+            {
+                query = "DELETE FROM Paper_Question WHERE QuestionId = @questionid";
+                command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@questionid", questionId);
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+
+                query = "DELETE FROM Questions WHERE QuestionId = @questionid";
+            }
+
+            connection.Open();
             command = new SqlCommand(query, connection);
 
             command.Parameters.AddWithValue("@questionid", questionId);
