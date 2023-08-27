@@ -74,14 +74,47 @@ namespace Khidmat_Project
 
         private void button6_Click(object sender, EventArgs e) //Filter Button
         {
+            string bookName = textBox1.Text.ToString();
+            string subjectName = comboBox1.Text.ToString();
+            Boolean bookFlag = false;
+            Boolean subjectFlag = false;
 
+            string query = "SELECT BookId, BookName FROM Book WHERE 1=1 ";
+
+            if (bookName != null)
+            {
+                query = query + " AND BookName LIKE %" + "@BookName" + "%";
+                bookFlag = true;
+            }
+            if (subjectName != null)
+            {
+                query = query + " AND SubjectId = @SubjectID ";
+                subjectFlag = true;
+            }
+
+            connection.Open();
+            command = new SqlCommand(query, connection);
+            if (bookFlag == true)
+            {
+                command.Parameters.AddWithValue("@BookName", bookName);
+            }
+            if (subjectFlag == true)
+            {
+                command.Parameters.AddWithValue("@SubjectId", subjectName_Id[subjectName]);
+            }
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+            command.Dispose();
+            connection.Close();
+            dataGridView1.DataSource = dataTable;
         }
 
         private void button1_Click(object sender, EventArgs e) //Delete Button
         {
             if (dataGridView1.SelectedCells.Count == 0)
             {
-                MessageBox.Show("Please select a topic first.");
+                MessageBox.Show("Please select a book first.");
             }
             else
             {
