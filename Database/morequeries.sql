@@ -59,3 +59,5 @@ BEGIN
     insert into Subject (SubjectName) values (@SubjectName)
 END
 */
+
+select * from Questions where Type = 'long' and TopicID in (select TopicID from Topic Where SubjectId = 1)
