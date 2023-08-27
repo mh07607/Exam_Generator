@@ -14,8 +14,7 @@ namespace Khidmat_Project
 {
     public partial class Form4 : Form
     {
-        const string connectionString = @"Data Source=DESKTOP-PEGIUMG; Initial Catalog = khidmat_test1; Integrated Security = False; user id=Admin;password=Blaze30083;";
-        SqlConnection connection = new SqlConnection(connectionString);
+        SqlConnection connection = new SqlConnection(connectDb.connectionString);
         SqlCommand command = new SqlCommand();
 
 

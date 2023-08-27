@@ -13,8 +13,7 @@ namespace Khidmat_Project
 {
     public partial class Form12 : Form
     {
-        const string connectionString = @"Data Source =DESKTOP-PEGIUMG; Inital Catalog = khidmat_test1; Integrated Security = False; user id =Admin;password=Blaze30083";
-        SqlConnection connection = new SqlConnection(connectionString);
+        SqlConnection connection = new SqlConnection(connectDb.connectionString);
         SqlCommand command = new SqlCommand();
         Dictionary<string, int> subjectName_Id = new Dictionary<string, int>();
         Dictionary<string, int> BookName_Id = new Dictionary<string, int>();
@@ -64,18 +63,28 @@ namespace Khidmat_Project
         private void button5_Click(object sender, EventArgs e) //Add Button
         {
             string topicName = textBox1.Text.ToString();
-            string subjectName = textBox1.Text.ToString();
-            if (topicName != null && subjectName != null)
+            string subjectName = comboBox1.Text.ToString();
+            if (topicName != "" && subjectName != "")
             {
                 string subjectId = subjectName_Id[subjectName].ToString();
                 connection.Open();
-                string query = "exex InsertTopic @SubjectId, @TopicName";
+                string query = "exec InsertTopic @SubjectId, @TopicName";
                 command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@SubjectId", subjectId);
                 command.Parameters.AddWithValue("@TopicName", topicName);
                 command.ExecuteNonQuery();
                 connection.Close();
 
+                connection.Open();
+                string query3 = "SELECT TOP 1 TopicId " +
+                    "FROM Topic " +
+                    "ORDER BY TopicId DESC";
+                command = new SqlCommand(query3, connection);
+                object result = command.ExecuteScalar();
+                command.Dispose();
+                connection.Close();
+
+                int topicId = Convert.ToInt32(result);
                 //You may want to comment out this part while debugging
                 //Adding the books, if theres no books added in the listBox this loop doesn't excute
                 //Since you said "make it so that the book entry is optional"
@@ -84,11 +93,11 @@ namespace Khidmat_Project
                     string BookName = item.ToString();
                     string BookId = BookName_Id[BookName].ToString();
                     connection.Open();
-                    string query2 = "exex InsertBookTopic @BookId, @TopicId";
+                    string query2 = "INSERT into Book_Topic (BookId, TopicId) values (@BookId, @TopicId)";
                     command = new SqlCommand(query2, connection);
                     command.Parameters.AddWithValue("@BookId", BookId);
                     //How do we get TopicId when the topic was freshly created?
-                    //command.Parameters.AddWithValue("@TopicId", TopicId) 
+                    command.Parameters.AddWithValue("@TopicId", topicId);
                     command.ExecuteNonQuery();
                     connection.Close();
                 }
@@ -124,7 +133,7 @@ namespace Khidmat_Project
                 int BookId = Convert.ToInt32(reader["BookId"]);
                 string BookName = reader["BookName"].ToString();
 
-                subjectName_Id[BookName] = BookId;
+                BookName_Id[BookName] = BookId;
 
                 BookList.Add(BookName);
             }
@@ -137,11 +146,11 @@ namespace Khidmat_Project
         private void button2_Click(object sender, EventArgs e) //Plus Button
         {
             string bookSelected = comboBox2.Text.ToString();
-            if (listBox1.Items.Contains(bookSelected) == false && bookSelected != null)
+            if (listBox1.Items.Contains(bookSelected) == false && bookSelected != "")
             {
                 listBox1.Items.Add(bookSelected);
             }
-            if (bookSelected != null)
+            else if (bookSelected == "")
             {
                 MessageBox.Show("Please select a book");
             }
@@ -162,6 +171,11 @@ namespace Khidmat_Project
             {
                 listBox1.Items.Remove(bookSelected);
             }
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

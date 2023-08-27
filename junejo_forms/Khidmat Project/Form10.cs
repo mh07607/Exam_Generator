@@ -15,8 +15,7 @@ namespace Khidmat_Project
     {
         int bookId;
         string bookName;
-        const string connectionString = @"Data Source =DESKTOP-PEGIUMG; Inital Catalog = khidmat_test1; Integrated Security = False; user id =Admin;password=Blaze30083";
-        SqlConnection connection = new SqlConnection(connectionString);
+        SqlConnection connection = new SqlConnection(connectDb.connectionString);
         SqlCommand command = new SqlCommand();
         Dictionary<string, int> subjectName_Id = new Dictionary<string, int>();
 
@@ -27,22 +26,26 @@ namespace Khidmat_Project
             this.bookName = bookName;
         }
 
-        public void Form10_Load() 
+        public void Form10_Load(object sender, EventArgs e) 
         {
             textBox1.Text = bookName;
 
             List<string> subjectList = getSubjects();
             comboBox1.DataSource = subjectList;
 
+            connection.Open();
             //getting the subject name
             string query = "SELECT Subject.SubjectName " +
                                "FROM Book " +
                                "INNER JOIN Subject ON Book.SubjectId = Subject.SubjectId " +
                                "WHERE Book.BookId = @BookId";
-            SqlCommand command = new SqlCommand(query, connection);
+            command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@BookId", bookId);
             object result = command.ExecuteScalar();
             comboBox1.Text = result.ToString();
+            
+            command.Dispose();
+            connection.Close();
         }
 
         private List<string> getSubjects()
@@ -101,6 +104,11 @@ namespace Khidmat_Project
             //Form8 form8 = new Form8();
             //form8.Show();
             //this.Hide();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

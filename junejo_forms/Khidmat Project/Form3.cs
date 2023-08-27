@@ -53,7 +53,6 @@ namespace Khidmat_Project
         {
             Form8 form8 = new Form8();
             form8.Show();
-            this.Hide();
         }
     }
 }

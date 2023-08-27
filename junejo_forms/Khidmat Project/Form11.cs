@@ -15,8 +15,7 @@ namespace Khidmat_Project
 
     public partial class Form11 : Form
     {
-        const string connectionString = @"Data Source =DESKTOP-PEGIUMG; Inital Catalog = khidmat_test1; Integrated Security = False; user id =Admin;password=Blaze30083";
-        SqlConnection connection = new SqlConnection(connectionString);
+        SqlConnection connection = new SqlConnection(connectDb.connectionString);
         SqlCommand command = new SqlCommand();
         Dictionary<string, int> subjectName_Id = new Dictionary<string, int>();
         Dictionary<string, int> BookName_Id = new Dictionary<string, int>();
@@ -92,7 +91,7 @@ namespace Khidmat_Project
             //Please Delete this function and its button
             string topicName = textBox1.Text.ToString();
             string query;
-            if(topicName == null)
+            if(topicName == "")
             {
                 query = "SELECT TopicId, TopicName FROM Topic"; //Showing all topics
             }
@@ -119,18 +118,27 @@ namespace Khidmat_Project
             string bookName = comboBox3.Text.ToString();
             bool topicFlag = false;
             bool subjectFlag = false;
+            bool bookFlag = false;
 
-            string query = "SELECT TopicId, TopicName FROM Topic WHERE 1=1 ";
+            string query = "SELECT T.TopicId, T.TopicName" +
+                " FROM Topic T LEFT JOIN Book_Topic BT on T.TopicId = BT.TopicId " +
+                " LEFT JOIN Book B on BT.BookId = B.BookId" +
+                " WHERE 1=1 ";
             
-            if(topicName != null)
+            if(topicName != "")
             {
-                query = query + " AND TopicName LIKE %" + "@TopicName" + "%";
+                query = query + @" AND T.TopicName LIKE '%' + @TopicName + '%'";
                 topicFlag = true;
             }
-            if(subjectName != null)
+            if(subjectName != "")
             {
-                query = query + " AND SubjectId = @SubjectID ";
+                query = query + " AND T.SubjectId = @SubjectID ";
                 subjectFlag = true;
+            }
+            if(bookName != "")
+            {
+                query = query + " AND B.BookId = @BookID ";
+                bookFlag = true;
             }
 
             connection.Open();
@@ -141,7 +149,11 @@ namespace Khidmat_Project
             }
             if(subjectFlag == true)
             {
-                command.Parameters.AddWithValue("@SubjectId", subjectName_Id[subjectName]);
+                command.Parameters.AddWithValue("@SubjectID", subjectName_Id[subjectName]);
+            }
+            if(bookFlag == true)
+            {
+                command.Parameters.AddWithValue("@BookID", BookName_Id[bookName]);
             }
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             DataTable dataTable = new DataTable();
@@ -167,7 +179,7 @@ namespace Khidmat_Project
                 int BookId = Convert.ToInt32(reader["BookId"]);
                 string BookName = reader["BookName"].ToString();
 
-                subjectName_Id[BookName] = BookId;
+                BookName_Id[BookName] = BookId;
 
                 BookList.Add(BookName);
             }

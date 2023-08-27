@@ -14,8 +14,7 @@ namespace Khidmat_Project
 {
     public partial class Form9 : Form
     {
-        const string connectionString = @"Data Source =DESKTOP-PEGIUMG; Inital Catalog = khidmat_test1; Integrated Security = False; user id =Admin;password=Blaze30083";
-        SqlConnection connection = new SqlConnection(connectionString);
+        SqlConnection connection = new SqlConnection(connectDb.connectionString);
         SqlCommand command = new SqlCommand();
         Dictionary<string, int> subjectName_Id = new Dictionary<string, int>();
         public Form9()
@@ -54,9 +53,7 @@ namespace Khidmat_Project
         }
 
         private void button4_Click(object sender, EventArgs e)
-        {
-            Form8 form8 = new Form8();
-            form8.Show();
+        {         
             this.Hide();
         }
 
@@ -64,7 +61,7 @@ namespace Khidmat_Project
         {
             string bookName = textBox1.Text.ToString();
             string subjectName = comboBox1.Text.ToString();
-            if(bookName != null && subjectName != null)
+            if(bookName != "" && subjectName != "")
             {
                 string subjectId = subjectName_Id[subjectName].ToString();
                 connection.Open();
