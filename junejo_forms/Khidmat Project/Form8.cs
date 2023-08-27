@@ -67,9 +67,20 @@ namespace Khidmat_Project
 
         private void button2_Click(object sender, EventArgs e) //Edit Button 
         {
-            Form10 form10 = new Form10();
-            form10.Show();
-            this.Hide();
+            if (dataGridView1.SelectedCells.Count == 0)
+            {
+                MessageBox.Show("Please select a book first.");
+            }
+            else
+            {
+                DataGridViewCell selectedCell = dataGridView1.SelectedCells[0];
+                int selectedRowIndex = selectedCell.RowIndex;
+                int bookId = Convert.ToInt32(dataGridView1.Rows[selectedRowIndex].Cells[0].Value);
+                string bookName = Convert.ToString(dataGridView1.Rows[selectedRowIndex].Cells[1].Value);
+                Form10 form10 = new Form10(bookId, bookName);
+                form10.Show();
+                this.Hide();
+            }
         }
 
         private void button6_Click(object sender, EventArgs e) //Filter Button
