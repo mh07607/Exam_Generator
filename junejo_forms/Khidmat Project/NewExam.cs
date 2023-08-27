@@ -158,7 +158,7 @@ namespace Khidmat_Project
                         Console.WriteLine("User canceled the save operation.");
                     }
 
-                    DialogResult result = MessageBox.Show("Success", "Paper generated successfully. Do you want to store it in the database?", MessageBoxButtons.YesNo);
+                    DialogResult result = MessageBox.Show("Paper generated successfully. Do you want to store it in the database?", "Success", MessageBoxButtons.YesNo);
                     if (result == DialogResult.Yes)
                     {
                         NewPaper newPaper = new NewPaper(shortIds, mcqIds, subjectId);

@@ -16,7 +16,7 @@ namespace Khidmat_Project
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new NewExam(1));
+            Application.Run(new Form1());
         }
     }
 }
