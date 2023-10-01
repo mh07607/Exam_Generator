@@ -256,5 +256,10 @@ namespace Khidmat_Project
                 MessageBox.Show("Topic and all assosicated data deleted sucessfully");
             }
         }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

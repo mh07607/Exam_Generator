@@ -40,7 +40,6 @@ namespace Khidmat_Project
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -53,6 +52,8 @@ namespace Khidmat_Project
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -61,11 +62,13 @@ namespace Khidmat_Project
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(268, 10);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(282, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(102, 13);
+            this.label1.Size = new System.Drawing.Size(154, 25);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Generate new exam";
+            this.label1.Text = "Exam Generator";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // groupBox4
             // 
@@ -74,9 +77,9 @@ namespace Khidmat_Project
             this.groupBox4.Controls.Add(this.label16);
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.label18);
-            this.groupBox4.Location = new System.Drawing.Point(30, 75);
+            this.groupBox4.Location = new System.Drawing.Point(30, 134);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(630, 88);
+            this.groupBox4.Size = new System.Drawing.Size(635, 88);
             this.groupBox4.TabIndex = 3;
             this.groupBox4.TabStop = false;
             // 
@@ -119,7 +122,7 @@ namespace Khidmat_Project
             // button2
             // 
             this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(30, 201);
+            this.button2.Location = new System.Drawing.Point(30, 260);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(64, 20);
             this.button2.TabIndex = 5;
@@ -127,20 +130,10 @@ namespace Khidmat_Project
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(585, 28);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(64, 20);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Generate";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // button5
             // 
             this.button5.Enabled = false;
-            this.button5.Location = new System.Drawing.Point(32, 63);
+            this.button5.Location = new System.Drawing.Point(32, 122);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(64, 20);
             this.button5.TabIndex = 5;
@@ -155,7 +148,7 @@ namespace Khidmat_Project
             this.groupBox6.Controls.Add(this.label3);
             this.groupBox6.Controls.Add(this.label4);
             this.groupBox6.Controls.Add(this.label5);
-            this.groupBox6.Location = new System.Drawing.Point(30, 342);
+            this.groupBox6.Location = new System.Drawing.Point(30, 401);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(630, 83);
             this.groupBox6.TabIndex = 3;
@@ -204,7 +197,7 @@ namespace Khidmat_Project
             this.groupBox5.Controls.Add(this.label8);
             this.groupBox5.Controls.Add(this.label9);
             this.groupBox5.Controls.Add(this.label10);
-            this.groupBox5.Location = new System.Drawing.Point(30, 218);
+            this.groupBox5.Location = new System.Drawing.Point(30, 277);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(630, 88);
             this.groupBox5.TabIndex = 3;
@@ -249,7 +242,7 @@ namespace Khidmat_Project
             // button3
             // 
             this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(30, 328);
+            this.button3.Location = new System.Drawing.Point(30, 387);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(64, 20);
             this.button3.TabIndex = 5;
@@ -257,23 +250,53 @@ namespace Khidmat_Project
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(353, 83);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(100, 28);
+            this.button4.TabIndex = 6;
+            this.button4.Text = "Generate";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.RosyBrown;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(249, 83);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 28);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "Back";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // NewExam
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(700, 454);
+            this.ClientSize = new System.Drawing.Size(700, 527);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.label1);
             this.Name = "NewExam";
             this.Text = "Create Exam";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -294,7 +317,6 @@ namespace Khidmat_Project
         private Label label17;
         private Label label18;
         private Label label15;
-        private Button button1;
         private Button button5;
         private GroupBox groupBox6;
         private Label label2;
@@ -308,5 +330,7 @@ namespace Khidmat_Project
         private Label label10;
         private Button button2;
         private Button button3;
+        private Button button4;
+        private Button button1;
     }
 }

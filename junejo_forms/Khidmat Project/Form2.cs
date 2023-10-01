@@ -48,5 +48,10 @@ namespace Khidmat_Project
             SelectSubject selectSubject = new SelectSubject();
             selectSubject.Show();
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

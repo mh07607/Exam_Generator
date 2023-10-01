@@ -119,55 +119,7 @@ namespace Khidmat_Project
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //pc
-            //string docxFilePath = @"C:\Users\pc\Downloads\exams\exam-template.docx"; // Path for the Word document
-
-            //laptop
-            string docxFilePath = @"C:\Users\Arsalan\Downloads\exams\exam-template.docx"; // Path for the Word document
-
-            using (DocX doc = DocX.Load(docxFilePath))
-            {
-               List<int> mcqIds = InsertMCQInDocx(doc);
-               List<int> shortIds = InsertShortInDocx(doc);
-               List<int> longIds = InsertLongInDocx(doc);
-
-                //List<int> questionIds = shortIds.Concat(longIds).ToList();
-               shortIds.AddRange(longIds);
-
-               Console.WriteLine("mcqids", mcqIds);
-               Console.WriteLine("questionids", shortIds);
-
-                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
-               {
-                    saveFileDialog.Filter = "Word Document|*.docx";
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        var savePath = saveFileDialog.FileName;
-                        try {
-                            doc.SaveAs(savePath);
-                            Process.Start(savePath);
-                        }
-                        catch (Exception error)
-                        {
-                            MessageBox.Show("An error occurred while saving the document: " + error.Message);
-                        }
-                        
-                    }
-                    else
-                    {
-                        Console.WriteLine("User canceled the save operation.");
-                    }
-
-                    DialogResult result = MessageBox.Show("Paper generated successfully. Do you want to store it in the database?", "Success", MessageBoxButtons.YesNo);
-                    if (result == DialogResult.Yes)
-                    {
-                        NewPaper newPaper = new NewPaper(shortIds, mcqIds, subjectId);
-                        newPaper.Show();
-                    }
-                }
-            }
-
-            
+               
         }
 
         private void GenerateLatexPdf()
@@ -647,6 +599,67 @@ namespace Khidmat_Project
         private void button3_Click_1(object sender, EventArgs e)
         {
             groupBox6.Visible = !groupBox6.Visible;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //pc
+            //string docxFilePath = @"C:\Users\pc\Downloads\exams\exam-template.docx"; // Path for the Word document
+
+            //laptop
+            string docxFilePath = @"C:\Users\Arsalan\Downloads\exams\exam-template.docx"; // Path for the Word document
+
+            using (DocX doc = DocX.Load(docxFilePath))
+            {
+                List<int> mcqIds = InsertMCQInDocx(doc);
+                List<int> shortIds = InsertShortInDocx(doc);
+                List<int> longIds = InsertLongInDocx(doc);
+
+                //List<int> questionIds = shortIds.Concat(longIds).ToList();
+                shortIds.AddRange(longIds);
+
+                Console.WriteLine("mcqids", mcqIds);
+                Console.WriteLine("questionids", shortIds);
+
+                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                {
+                    saveFileDialog.Filter = "Word Document|*.docx";
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        var savePath = saveFileDialog.FileName;
+                        try
+                        {
+                            doc.SaveAs(savePath);
+                            Process.Start(savePath);
+                        }
+                        catch (Exception error)
+                        {
+                            MessageBox.Show("An error occurred while saving the document: " + error.Message);
+                        }
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("User canceled the save operation.");
+                    }
+
+                    DialogResult result = MessageBox.Show("Paper generated successfully. Do you want to store it in the database?", "Success", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
+                    {
+                        NewPaper newPaper = new NewPaper(shortIds, mcqIds, subjectId);
+                        newPaper.Show();
+                    }
+                }
+            }
+
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2();
+            form2.Show();
+            this.Hide();
         }
     }
 }
